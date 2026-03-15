@@ -3,7 +3,7 @@
     <div>
       <p class="page-kicker">Support</p>
       <h1 class="page-title">Support centre</h1>
-      <p class="page-subtitle">Check runtime health, log a request, and keep support activity visible.</p>
+      <p class="page-subtitle">Check service status, raise an issue, and keep support activity visible.</p>
     </div>
 
     <button type="button" class="button-secondary" (click)="refreshHealth()">
@@ -16,7 +16,7 @@
       <div class="section-head">
         <div>
           <h2>Raise support request</h2>
-          <p>Capture operational or integration issues.</p>
+          <p>Record payment, access, or validation issues.</p>
         </div>
       </div>
 
@@ -26,7 +26,7 @@
             <label class="form-label mb-0" for="category">Category</label>
           </div>
           <select id="category" class="form-control form-select" formControlName="category">
-            <option value="API">API</option>
+            <option value="System">System</option>
             <option value="Payments">Payments</option>
             <option value="Validation">Validation</option>
             <option value="Access">Access</option>
@@ -61,14 +61,14 @@
         </div>
 
         <div class="form-actions">
-          <button type="submit" class="button-primary">Log request</button>
+          <button type="submit" class="button-primary">Save request</button>
         </div>
       </form>
     </section>
 
     <aside class="support-side">
       <section class="surface status-panel" [class.is-up]="health().status === 'UP'" [class.is-down]="health().status === 'DOWN'">
-        <span class="status-panel__label">API status</span>
+        <span class="status-panel__label">Service status</span>
         <strong>{{ health().status === 'UP' ? 'Online' : health().status === 'DOWN' ? 'Unavailable' : 'Checking' }}</strong>
         <p>{{ health().message }}</p>
 
@@ -78,8 +78,8 @@
         </div>
 
         <div class="status-panel__links">
-          <a class="link-action" href="/api/health" target="_blank" rel="noreferrer">Open health</a>
-          <a class="link-action" href="/api/docs" target="_blank" rel="noreferrer">Open docs</a>
+          <a class="link-action" href="/api/health" target="_blank" rel="noreferrer">View service health</a>
+          <a class="link-action" href="/activity">Open transactions</a>
         </div>
       </section>
 
@@ -87,7 +87,7 @@
         <div class="section-head">
           <div>
             <h2>Recent requests</h2>
-            <p>Latest locally logged support items.</p>
+            <p>Recent support items saved in this browser.</p>
           </div>
 
           <button type="button" class="button-secondary" (click)="clearTickets()">Clear</button>

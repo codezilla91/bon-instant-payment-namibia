@@ -36,45 +36,61 @@
         </li>
       </ul>
 
-      <!-- User menu -->
-      <div class="user-menu-wrap">
-        <button class="user-trigger" type="button" (click)="toggleUserMenu()">
-          <span class="user-avatar">{{ user.initials }}</span>
-          <span class="user-name d-none d-lg-inline">{{ user.name }}</span>
-          <svg class="user-chevron" [class.rotated]="userMenuOpen()" width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <div class="navbar-actions">
+        <button
+          class="privacy-toggle"
+          type="button"
+          (click)="toggleAmountVisibility()"
+          [attr.aria-label]="amountsVisible() ? 'Hide balances and amounts' : 'Show balances and amounts'"
+        >
+          <svg *ngIf="amountsVisible(); else eyeOffTpl" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M1 8C1 8 3.5 3 8 3C12.5 3 15 8 15 8C15 8 12.5 13 8 13C3.5 13 1 8 1 8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+            <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.4"/>
           </svg>
+          <ng-template #eyeOffTpl>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M1.5 1.5L14.5 14.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M6.3 6.4A2 2 0 009.5 9.6M3 3.5C1.9 4.7 1 8 1 8C1 8 3.5 13 8 13C9.5 13 10.9 12.4 12 11.5M5.5 2.7C6.3 2.3 7.1 2 8 2C12.5 2 15 8 15 8C15 8 14.4 9.5 13.5 10.7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </ng-template>
+          <span>{{ amountsVisible() ? 'Hide amounts' : 'Show amounts' }}</span>
         </button>
 
-        <div class="user-dropdown" *ngIf="userMenuOpen()">
-          <div class="user-dropdown__header">
-            <span class="user-avatar user-avatar--lg">{{ user.initials }}</span>
+        <!-- User menu -->
+        <div class="user-menu-wrap">
+          <button class="user-trigger" type="button" (click)="toggleUserMenu()">
+            <span class="user-avatar">{{ user.initials }}</span>
+            <span class="user-name d-none d-lg-inline">{{ user.name }}</span>
+            <svg class="user-chevron" [class.rotated]="userMenuOpen()" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <div class="user-dropdown" *ngIf="userMenuOpen()">
+            <div class="user-dropdown__header">
+              <span class="user-avatar user-avatar--lg">{{ user.initials }}</span>
             <div class="user-dropdown__info">
               <strong>{{ user.name }}</strong>
               <small>{{ user.role }}</small>
             </div>
           </div>
           <hr class="user-dropdown__divider" />
-          <a class="user-dropdown__item" [routerLink]="['/developer']" (click)="closeNav()">
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <path d="M5 4L2 7.5L5 11M10 4L13 7.5L10 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            API &amp; Developer
-          </a>
-          <a class="user-dropdown__item" href="/api/docs" target="_blank" rel="noreferrer">
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <rect x="2.5" y="2.5" width="10" height="10" rx="1.2" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M5 6h5M5 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            </svg>
-            API Documentation
-          </a>
-          <a class="user-dropdown__item" [routerLink]="['/support']" (click)="closeNav()">
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M7.5 5.5v3M7.5 10h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-            </svg>
-            Support
-          </a>
+            <a class="user-dropdown__item" [routerLink]="['/support']" (click)="closeNav()">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M7.5 5.5v3M7.5 10h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              Support
+            </a>
+            <a class="user-dropdown__item" [href]="apiDocsUrl" target="_blank" rel="noreferrer" (click)="closeNav()">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                <path d="M4 2.5H9.7L12 4.8V12.5H4V2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M9.5 2.5V5H12" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M6 7.2H10M6 9.2H10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+              Swagger docs
+            </a>
+          </div>
         </div>
       </div>
     </div>

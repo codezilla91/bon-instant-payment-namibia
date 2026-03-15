@@ -10,9 +10,8 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppFooterComponent {
+  protected readonly apiDocsUrl = 'http://localhost:3000/api/docs';
   protected readonly links: ReadonlyArray<{ label: string; route: string }> = [
-    { label: 'Home', route: '/' },
-    { label: 'Dashboard', route: '/dashboard' },
     { label: 'Payments', route: '/payments' },
     { label: 'Transactions', route: '/activity' },
     { label: 'Support', route: '/support' }

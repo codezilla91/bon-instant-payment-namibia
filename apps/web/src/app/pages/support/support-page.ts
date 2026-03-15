@@ -35,12 +35,12 @@ export class SupportPageComponent {
   protected readonly checkingHealth = signal(false);
   protected readonly health = signal<HealthState>({
     status: 'CHECKING',
-    message: 'Checking API availability.',
-    service: 'bon-p2p-mock-api'
+    message: 'Checking service availability.',
+    service: 'Instant Payment Namibia'
   });
 
   protected readonly form = this.fb.nonNullable.group({
-    category: ['API' as SupportTicket['category'], [Validators.required]],
+    category: ['System' as SupportTicket['category'], [Validators.required]],
     severity: ['Medium' as SupportTicket['severity'], [Validators.required]],
     subject: ['', [Validators.required, Validators.maxLength(60), nonBlankValidator]],
     detail: ['', [Validators.required, Validators.maxLength(240), nonBlankValidator]]
@@ -59,7 +59,7 @@ export class SupportPageComponent {
     const value = this.form.getRawValue();
     this.supportDesk.createTicket(value);
     this.form.reset({
-      category: 'API',
+      category: 'System',
       severity: 'Medium',
       subject: '',
       detail: ''
@@ -76,16 +76,16 @@ export class SupportPageComponent {
         next: (response) => {
           this.health.set({
             status: response.status === 'UP' ? 'UP' : 'DOWN',
-            message: response.status === 'UP' ? 'API is responding normally.' : 'API is reporting an issue.',
-            service: response.service,
+            message: response.status === 'UP' ? 'Payment service is responding normally.' : 'Payment service is reporting an issue.',
+            service: response.service || 'Instant Payment Namibia',
             checkedAt: new Date().toISOString()
           });
         },
         error: () => {
           this.health.set({
             status: 'DOWN',
-            message: 'API is unreachable from the web client.',
-            service: 'bon-p2p-mock-api',
+            message: 'Payment service is currently unavailable from this browser.',
+            service: 'Instant Payment Namibia',
             checkedAt: new Date().toISOString()
           });
         }

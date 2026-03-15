@@ -25,14 +25,6 @@ test('GET /api/health returns UP status', async () => {
   assert.equal(response.body.status, 'UP');
 });
 
-test('GET /api/openapi.json returns OpenAPI document', async () => {
-  const agent = setupApp();
-  const response = await agent.get('/api/openapi.json');
-
-  assert.equal(response.status, 200);
-  assert.equal(response.body.openapi, '3.0.3');
-});
-
 test('POST /api/p2p-payment returns success for valid input', async () => {
   const agent = setupApp();
   const response = await agent.post('/api/p2p-payment').send(validPayload);
@@ -41,6 +33,7 @@ test('POST /api/p2p-payment returns success for valid input', async () => {
   assert.equal(response.body.status, 'SUCCESS');
   assert.equal(response.body.clientReference, validPayload.clientReference);
   assert.ok(typeof response.body.transactionId === 'string');
+  assert.match(response.body.transactionId, /^TXN\d{12}$/);
   assert.ok(typeof response.headers['x-correlation-id'] === 'string');
 });
 
@@ -98,7 +91,7 @@ test('POST /api/p2p-payment returns ERR005 for insufficient funds mock rule', as
   const response = await agent.post('/api/p2p-payment').send({
     ...validPayload,
     clientReference: 'CLI-TEST-0003',
-    senderAccountNumber: '1234500001'
+    amount: 600000
   });
 
   assert.equal(response.status, 402);

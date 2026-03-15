@@ -23,12 +23,20 @@
         <p>Current payment history stored in this browser.</p>
       </div>
 
-      <div class="filter-set" aria-label="Filter transactions">
-        <button type="button" [class.is-active]="filter() === 'ALL'" (click)="setFilter('ALL')">All</button>
-        <button type="button" [class.is-active]="filter() === 'SUCCESS'" (click)="setFilter('SUCCESS')">Successful</button>
-        <button type="button" [class.is-active]="filter() === 'FAILED'" (click)="setFilter('FAILED')">Failed</button>
+      <div class="toolbar-controls">
+        <div class="search-wrap">
+          <input #searchInput type="search" class="form-control" placeholder="Search reference, client ref, account, code..." (input)="setSearch(searchInput.value)" />
+        </div>
+
+        <div class="filter-set" aria-label="Filter transactions">
+          <button type="button" [class.is-active]="filter() === 'ALL'" (click)="setFilter('ALL')">All</button>
+          <button type="button" [class.is-active]="filter() === 'SUCCESS'" (click)="setFilter('SUCCESS')">Successful</button>
+          <button type="button" [class.is-active]="filter() === 'FAILED'" (click)="setFilter('FAILED')">Failed</button>
+        </div>
       </div>
     </div>
+
+    <div class="toolbar-divider"></div>
 
     <div class="table-responsive transaction-table-wrap" *ngIf="filteredPayments().length; else emptyState">
       <table class="table table-hover align-middle mb-0 transaction-table">
@@ -55,6 +63,9 @@
               <span class="status-badge" [class.is-success]="payment.status === 'SUCCESS'" [class.is-failed]="payment.status === 'FAILED'">
                 {{ payment.status }}
               </span>
+              <div class="table-detail" [class.table-detail--success]="payment.status === 'SUCCESS'" [class.table-detail--failed]="payment.status === 'FAILED'">
+                {{ transactionDetail(payment) }}
+              </div>
             </td>
             <td class="text-nowrap">{{ formatTimestamp(payment.createdAt) }}</td>
           </tr>

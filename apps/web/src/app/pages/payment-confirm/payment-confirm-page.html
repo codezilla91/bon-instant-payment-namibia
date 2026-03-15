@@ -1,0 +1,114 @@
+<section class="page">
+  <header class="page-head">
+    <div>
+      <p class="page-kicker">Payments</p>
+      <h1 class="page-title">Confirm payment</h1>
+      <p class="page-subtitle">Review the payment details before you continue.</p>
+    </div>
+
+    <div class="head-card">
+      <span>Available balance</span>
+      <strong>{{ balanceLabel() }}</strong>
+    </div>
+  </header>
+
+  <section class="journey-strip surface">
+    <div class="journey-step is-complete">
+      <span>1</span>
+      <div>
+        <strong>Capture</strong>
+        <small>Payment details saved</small>
+      </div>
+    </div>
+    <div class="journey-step is-active">
+      <span>2</span>
+      <div>
+        <strong>Confirm</strong>
+        <small>Review before payment</small>
+      </div>
+    </div>
+    <div class="journey-step">
+      <span>3</span>
+      <div>
+        <strong>Result</strong>
+        <small>View payment outcome</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="confirm-layout" *ngIf="draft() as draft; else missingDraft">
+    <section class="surface">
+      <div class="section-head">
+        <div>
+          <h2>Instruction summary</h2>
+          <p>These are the payment details that will be processed.</p>
+        </div>
+      </div>
+
+      <div class="table-responsive detail-table-wrap">
+        <table class="table align-middle mb-0 detail-table">
+          <tbody>
+            <tr *ngFor="let item of detailItems()">
+              <th scope="row">{{ item.label }}</th>
+              <td>{{ item.value }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="confirm-side">
+      <section class="surface">
+        <div class="section-head">
+          <div>
+            <h2>Final review</h2>
+            <p>Check the sender, receiver, amount, and reference before you continue.</p>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-card__row">
+            <span>Available balance</span>
+            <strong>{{ balanceLabel() }}</strong>
+          </div>
+          <div class="review-card__row">
+            <span>Payment checks</span>
+            <strong>Validation happens when you confirm</strong>
+          </div>
+          <div class="review-card__row">
+            <span>After confirmation</span>
+            <strong>You will see the payment outcome immediately</strong>
+          </div>
+        </div>
+
+        <p class="review-warning" *ngIf="!hasEnoughBalance()">
+          This payment is higher than your available balance and cannot be completed.
+        </p>
+      </section>
+
+      <section class="surface action-panel">
+        <div class="section-head">
+          <div>
+            <h2>Complete payment</h2>
+            <p>The payment outcome will open immediately after you confirm.</p>
+          </div>
+        </div>
+
+        <div class="action-stack">
+          <button type="button" class="button-primary" (click)="confirmPayment()" [disabled]="submitting() || !hasEnoughBalance()">
+            {{ submitting() ? 'Processing payment...' : 'Confirm payment' }}
+          </button>
+          <a class="button-secondary action-link" [routerLink]="['/payments']">Back to edit</a>
+        </div>
+      </section>
+    </aside>
+  </section>
+
+  <ng-template #missingDraft>
+    <section class="surface empty-panel">
+      <h2 class="section-heading">No payment draft found</h2>
+      <p class="empty-state">Start a new payment first, then return here to confirm it.</p>
+      <a class="button-primary" [routerLink]="['/payments']">Create payment</a>
+    </section>
+  </ng-template>
+</section>

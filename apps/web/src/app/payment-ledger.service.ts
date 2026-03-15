@@ -2,12 +2,13 @@ import { Injectable, computed, signal } from '@angular/core';
 import { PaymentApiResponse, PaymentLedgerState, PaymentSubmission, StoredPayment } from './payment.models';
 
 const STORAGE_KEY = 'bon-ipn-payment-ledger';
-const DEFAULT_AVAILABLE_BALANCE = 500000;
+const DEFAULT_AVAILABLE_BALANCE = 30000;
 const MAX_PAYMENTS = 40;
 
 @Injectable({ providedIn: 'root' })
 export class PaymentLedgerService {
   private readonly storage = this.resolveStorage();
+  // Browser storage stands in for persistence so the payment trail survives refreshes.
   private readonly state = signal<PaymentLedgerState>(this.loadState());
 
   readonly balance = computed(() => this.state().availableBalance);

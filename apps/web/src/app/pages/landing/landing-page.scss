@@ -1,102 +1,223 @@
+:host {
+  display: block;
+}
+
 .landing-page {
-  // page-level resets
+  gap: calc(1rem * var(--phi));
 }
 
-// Hero
-.hero-section {
-  background: linear-gradient(135deg, rgba(153, 51, 51, 0.04) 0%, rgba(153, 153, 102, 0.06) 100%);
-  border-bottom: 1px solid rgba(84, 62, 47, 0.08);
+.landing-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.618fr) minmax(320px, 1fr);
+  gap: calc(1rem * var(--phi));
+  align-items: stretch;
+  padding: calc(1rem * var(--phi));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(248, 243, 234, 0.92)),
+    radial-gradient(circle at top right, rgba(190, 158, 83, 0.12), transparent 34%);
 }
 
-.hero-logo {
-  width: 88px;
-  height: auto;
-  filter: drop-shadow(0 4px 12px rgba(153, 51, 51, 0.15));
+.landing-hero__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.hero-title {
-  font-size: clamp(2rem, 4vw, 3rem);
+.landing-hero__copy .page-title {
+  margin-bottom: 0.8rem;
+  font-size: clamp(1.95rem, 3.3vw, 2.6rem);
+}
+
+.landing-hero__copy .page-subtitle {
+  max-width: 40rem;
+  font-size: 0.98rem;
+}
+
+.landing-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.4rem;
+}
+
+.landing-hero__summary {
+  display: grid;
+  gap: 0.9rem;
+  align-content: start;
+}
+
+.landing-summary-card {
+  padding: 1rem 1.05rem;
+  border: 1px solid rgba(84, 62, 47, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.landing-summary-card__top {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 2.2rem;
+}
+
+.landing-summary-card__label,
+.landing-step__index {
+  display: inline-block;
+  font-size: 0.72rem;
   font-weight: 800;
-  line-height: 1.1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bon-burgundy);
+  line-height: 1;
+}
+
+.landing-summary-card__label {
+  align-self: center;
+}
+
+.landing-icon-badge,
+.landing-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 12px;
+  background: rgba(153, 51, 51, 0.08);
+  color: var(--bon-burgundy);
+  flex-shrink: 0;
+  align-self: center;
+
+  svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    display: block;
+  }
+}
+
+.landing-summary-card strong,
+.landing-card strong,
+.landing-step strong {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 1rem;
+  font-weight: 800;
   color: var(--bon-ink);
 }
 
-.hero-subtitle {
-  font-size: 1.08rem;
-  color: var(--bon-muted);
+.landing-summary-card p,
+.landing-card p,
+.landing-step p,
+.landing-cta__text {
+  margin: 0.35rem 0 0;
+  font-size: 0.92rem;
   line-height: 1.65;
+  color: var(--bon-muted);
 }
 
-// Benefit cards
-.benefit-card {
-  .benefit-icon {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 10px;
-    background: linear-gradient(135deg, rgba(153, 51, 51, 0.12), rgba(153, 153, 102, 0.12));
+.landing-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.618fr) minmax(320px, 1fr);
+  gap: calc(1rem * var(--phi));
+}
+
+.landing-card-grid,
+.landing-steps {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.landing-card-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.landing-card {
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(84, 62, 47, 0.08);
+  border-radius: 12px;
+  background: rgba(248, 243, 234, 0.52);
+}
+
+.landing-card__icon {
+  margin-bottom: 0.85rem;
+}
+
+.landing-step {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+  padding: 0.95rem 0;
+  border-top: 1px solid rgba(84, 62, 47, 0.08);
+}
+
+.landing-step:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.landing-step__index {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 0;
+  padding-top: 0.28rem;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.landing-step__body {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.landing-step__body strong {
+  margin: 0;
+  line-height: 1.25;
+}
+
+.landing-step__body p {
+  margin: 0;
+}
+
+.landing-cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: calc(1rem * var(--phi));
+  padding: calc(1rem * var(--phi));
+}
+
+.landing-cta__title {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--bon-ink);
+}
+
+.landing-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (max-width: 1080px) {
+  .landing-hero,
+  .landing-grid {
+    grid-template-columns: 1fr;
   }
 
-  .benefit-title {
-    font-size: 1rem;
-    font-weight: 800;
-    color: var(--bon-ink);
+  .landing-card-grid {
+    grid-template-columns: 1fr;
   }
 }
 
-// FAQ accordion overrides
-.faq-accordion {
-  .accordion-item {
-    border-color: rgba(84, 62, 47, 0.12);
-    background: rgba(255, 255, 255, 0.88);
-    border-radius: 10px !important;
-    overflow: hidden;
-    margin-bottom: 0.5rem;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
+@media (max-width: 720px) {
+  .landing-cta {
+    flex-direction: column;
+    align-items: flex-start;
   }
-
-  .accordion-button {
-    font-weight: 700;
-    font-size: 0.97rem;
-    color: var(--bon-ink);
-    background: rgba(255, 255, 255, 0.88);
-    border-radius: 10px !important;
-    padding: 1.1rem 1.25rem;
-
-    &:not(.collapsed) {
-      background: rgba(153, 51, 51, 0.04);
-      color: var(--bon-burgundy);
-      box-shadow: none;
-    }
-
-    &::after {
-      filter: none;
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 3px rgba(153, 51, 51, 0.12);
-    }
-  }
-
-  .accordion-body {
-    padding: 0 1.25rem 1.1rem;
-    font-size: 0.94rem;
-    line-height: 1.65;
-  }
-}
-
-// CTA Banner
-.cta-banner {
-  padding: 3rem 2rem;
-
-  .section-heading {
-    font-size: 1.7rem;
-  }
-}
-
-// Utility for muted text matching BoN palette
-.text-muted-bon {
-  color: var(--bon-muted) !important;
 }

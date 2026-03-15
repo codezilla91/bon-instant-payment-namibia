@@ -3,7 +3,7 @@ import { Injectable, computed, signal } from '@angular/core';
 export interface SupportTicket {
   id: string;
   createdAt: string;
-  category: 'API' | 'Payments' | 'Validation' | 'Access';
+  category: 'System' | 'Payments' | 'Validation' | 'Access';
   severity: 'Low' | 'Medium' | 'High';
   subject: string;
   detail: string;

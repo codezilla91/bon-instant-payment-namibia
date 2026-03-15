@@ -1,123 +1,107 @@
-<div class="landing-page">
+<div class="landing-page page">
+  <section class="surface landing-hero">
+    <div class="landing-hero__copy">
+      <p class="page-kicker">Bank of Namibia</p>
+      <h1 class="page-title">Instant Payment Namibia</h1>
+      <p class="page-subtitle">
+        View your BoN wallet, make payments, and track recent activity in one place.
+      </p>
 
-  <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
-  <section class="hero-section py-5">
-    <div class="container-xl">
-      <div class="row justify-content-center text-center">
-        <div class="col-lg-8 col-xl-7">
-          <p class="page-kicker">Instant Payment Namibia</p>
-          <h1 class="hero-title mb-3">Fast, secure person-to-person payments for Namibia</h1>
-          <p class="hero-subtitle mb-4">
-            The Bank of Namibia's national instant payment system enables real-time transfers
-            between individuals across all participating financial institutions.
-          </p>
-          <div class="d-flex gap-3 justify-content-center flex-wrap">
-            <a class="button-primary" [routerLink]="['/dashboard']">Go to Dashboard</a>
-            <a class="button-secondary" [routerLink]="['/payments']">Make a Payment</a>
-          </div>
+      <div class="landing-hero__actions">
+        <a class="button-primary" [routerLink]="['/payments']">Create payment</a>
+        <a class="button-secondary" [routerLink]="['/dashboard']">Open dashboard</a>
+      </div>
+    </div>
+
+    <div class="landing-hero__summary">
+      <div class="landing-summary-card" *ngFor="let summary of summaries">
+        <div class="landing-summary-card__top">
+          <span class="landing-icon-badge" [ngSwitch]="summary.icon" aria-hidden="true">
+            <svg *ngSwitchCase="'wallet'" viewBox="0 0 24 24" fill="none">
+              <path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v1.5h-3.5A2.5 2.5 0 0 0 14 11v2a2.5 2.5 0 0 0 2.5 2.5H20V17a2 2 0 0 1-2 2H6.5A2.5 2.5 0 0 1 4 16.5v-9Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M14 11A1.5 1.5 0 0 1 15.5 9.5H20v6h-4.5A1.5 1.5 0 0 1 14 14v-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+            <svg *ngSwitchCase="'status'" viewBox="0 0 24 24" fill="none">
+              <path d="M6 12.5 10 16.5 18.5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+            <svg *ngSwitchCase="'receipt'" viewBox="0 0 24 24" fill="none">
+              <path d="M7 4.5h10v15l-2.5-1.6L12 19.5l-2.5-1.6L7 19.5v-15Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M9.5 9h5M9.5 12h5M9.5 15h3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="landing-summary-card__label">{{ summary.label }}</span>
         </div>
+        <strong>{{ summary.title }}</strong>
+        <p>{{ summary.description }}</p>
       </div>
     </div>
   </section>
 
-  <!-- ── About ─────────────────────────────────────────────────────────────── -->
-  <section class="py-4">
-    <div class="container-xl">
-      <div class="row g-4">
-        <div class="col-md-6">
-          <div class="surface h-100">
-            <p class="page-kicker">About</p>
-            <h2 class="section-heading mb-3">Bank of Namibia</h2>
-            <p class="text-muted-bon lh-lg mb-0">
-              The Bank of Namibia is the central bank of the Republic of Namibia, established under
-              Article 128 of the Namibian Constitution. It is responsible for promoting and maintaining
-              a sound monetary, credit, and financial system in Namibia, and serves as fiscal adviser
-              and banker to the Government.
-            </p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="surface h-100">
-            <p class="page-kicker">The Initiative</p>
-            <h2 class="section-heading mb-3">What is Instant Payment Namibia?</h2>
-            <p class="text-muted-bon lh-lg mb-0">
-              Instant Payment Namibia (IPN) is a modernisation initiative led by the Bank of Namibia
-              to bring real-time electronic payment capabilities to the nation. It enables Person-to-Person
-              (P2P) transfers that settle instantly, replacing the delays of traditional batch-processed
-              payments with immediate, round-the-clock transaction processing.
-            </p>
-          </div>
+  <section class="landing-grid">
+    <section class="surface">
+      <div class="section-head">
+        <div>
+          <h2>What you can do</h2>
+          <p>The core actions available in this workspace.</p>
         </div>
       </div>
-    </div>
+
+      <div class="landing-card-grid">
+        <article class="landing-card" *ngFor="let feature of features">
+          <span class="landing-card__icon" [ngSwitch]="feature.icon" aria-hidden="true">
+            <svg *ngSwitchCase="'send'" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12 19 5l-3 14-4-5-7-2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M12 14 19 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <svg *ngSwitchCase="'shield'" viewBox="0 0 24 24" fill="none">
+              <path d="M12 4 18 6.5v5.6c0 3.6-2.2 6.8-6 8.9-3.8-2.1-6-5.3-6-8.9V6.5L12 4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="m9.2 12.3 1.8 1.8 3.8-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <svg *ngSwitchCase="'history'" viewBox="0 0 24 24" fill="none">
+              <path d="M4.5 12A7.5 7.5 0 1 0 7 6.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.5 4.5v4H8.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 8.5V12l2.5 1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <strong>{{ feature.title }}</strong>
+          <p>{{ feature.description }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="surface">
+      <div class="section-head">
+        <div>
+          <h2>Payment journey</h2>
+          <p>A simple path from instruction capture to transaction result.</p>
+        </div>
+      </div>
+
+      <div class="landing-steps">
+        <article class="landing-step" *ngFor="let step of steps; let index = index">
+          <span class="landing-step__index">0{{ index + 1 }}</span>
+          <div class="landing-step__body">
+            <strong>{{ step.title }}</strong>
+            <p>{{ step.description }}</p>
+          </div>
+        </article>
+      </div>
+    </section>
   </section>
 
-  <!-- ── Benefits ──────────────────────────────────────────────────────────── -->
-  <section class="py-4">
-    <div class="container-xl">
-      <div class="text-center mb-4">
-        <p class="page-kicker">Why IPN</p>
-        <h2 class="section-heading d-inline-block">Benefits for Users</h2>
-      </div>
-      <div class="row g-3">
-        <div class="col-sm-6 col-lg-3" *ngFor="let benefit of benefits">
-          <div class="surface h-100 benefit-card">
-            <div class="benefit-icon mb-3"></div>
-            <h3 class="benefit-title mb-2">{{ benefit.title }}</h3>
-            <p class="text-muted-bon small mb-0 lh-lg">{{ benefit.description }}</p>
-          </div>
-        </div>
-      </div>
+  <section class="surface landing-cta">
+    <div>
+      <p class="page-kicker">Start here</p>
+      <h2 class="landing-cta__title">Open payments and complete a transfer.</h2>
+      <p class="landing-cta__text">
+        Use transactions for recent history and failure reasons, and use support if you need to log an issue.
+      </p>
+    </div>
+
+    <div class="landing-cta__actions">
+      <a class="button-primary" [routerLink]="['/payments']">Go to payments</a>
+      <a class="button-secondary" [routerLink]="['/activity']">View transactions</a>
     </div>
   </section>
-
-  <!-- ── FAQ ───────────────────────────────────────────────────────────────── -->
-  <section class="py-4">
-    <div class="container-xl">
-      <div class="text-center mb-4">
-        <p class="page-kicker">Support</p>
-        <h2 class="section-heading d-inline-block">Frequently Asked Questions</h2>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-lg-9">
-          <div class="accordion faq-accordion">
-            <div class="accordion-item" *ngFor="let item of faqs; let i = index">
-              <h2 class="accordion-header">
-                <button
-                  class="accordion-button"
-                  [class.collapsed]="expandedFaq !== i"
-                  type="button"
-                  (click)="toggleFaq(i)"
-                >
-                  {{ item.question }}
-                </button>
-              </h2>
-              <div class="accordion-collapse" [class.show]="expandedFaq === i">
-                <div class="accordion-body text-muted-bon lh-lg">
-                  {{ item.answer }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── CTA Banner ─────────────────────────────────────────────────────────── -->
-  <section class="py-4 pb-5">
-    <div class="container-xl">
-      <div class="surface cta-banner text-center">
-        <h2 class="section-heading d-inline-block">Ready to get started?</h2>
-        <p class="text-muted-bon mt-2 mb-4">
-          Access the IPN P2P Payment Portal to submit and monitor payment instructions.
-        </p>
-        <div class="d-flex gap-3 justify-content-center flex-wrap">
-          <a class="button-primary" [routerLink]="['/dashboard']">Open Dashboard</a>
-          <a class="button-secondary" [routerLink]="['/developer']">View API Docs</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
 </div>

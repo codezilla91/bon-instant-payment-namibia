@@ -6,67 +6,68 @@
   align-items: stretch;
 }
 
-.head-card {
+.payments-balance-card {
   min-width: 240px;
-  padding: 1rem 1.1rem;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.84);
-  border: 1px solid rgba(84, 62, 47, 0.12);
-  box-shadow: 0 18px 36px rgba(40, 32, 24, 0.08);
+  width: 100%;
+  max-width: 22.5rem;
 }
 
-.head-card__top {
+.journey-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+}
+
+.journey-step {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 0.2rem;
+  gap: 0.8rem;
+  padding: 0.75rem 0.8rem;
+  border: 1px solid rgba(84, 62, 47, 0.08);
+  border-radius: 10px;
+  background: rgba(248, 243, 234, 0.6);
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: rgba(84, 62, 47, 0.08);
+    color: var(--bon-muted);
+    font-size: 0.82rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  strong {
+    display: block;
+    font-size: 0.96rem;
+    color: var(--bon-ink);
+  }
+
+  small {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--bon-muted);
+  }
 }
 
-.head-card span,
-.preview-grid span,
-.detail-list span {
-  display: block;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--bon-muted);
-}
+.journey-step.is-active {
+  border-color: rgba(153, 51, 51, 0.18);
+  background: rgba(153, 51, 51, 0.05);
 
-.head-card__top span {
-  margin: 0;
-}
-
-.head-card strong {
-  display: block;
-  font-size: 1.25rem;
-  color: var(--bon-ink);
-}
-
-.eye-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.25rem;
-  border: none;
-  background: none;
-  cursor: pointer;
-  color: var(--bon-muted);
-  border-radius: 6px;
-  min-height: unset;
-  transition: color 0.15s ease, background-color 0.15s ease;
-
-  &:hover {
-    color: var(--bon-burgundy);
-    background: rgba(153, 51, 51, 0.06);
+  span {
+    background: linear-gradient(135deg, var(--bon-burgundy), var(--bon-burgundy-deep));
+    color: #fff;
   }
 }
 
 .payment-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.618fr) minmax(320px, 1fr);
-  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .payment-form {
@@ -108,87 +109,24 @@
   letter-spacing: 0.03em;
 }
 
-.preview-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.8rem;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(84, 62, 47, 0.08);
-}
-
-.preview-grid strong,
-.detail-list strong {
-  display: block;
-  margin-top: 0.25rem;
-  color: var(--bon-ink);
-}
-
-.payment-side {
-  display: grid;
-  gap: 1rem;
-  align-content: start;
-}
-
-.detail-list {
-  display: grid;
-  gap: 0.8rem;
-}
-
-.detail-list__message {
-  padding-top: 0.8rem;
-  border-top: 1px solid rgba(84, 62, 47, 0.08);
-}
-
-.transaction-table-wrap {
-  border: 1px solid rgba(84, 62, 47, 0.08);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.transaction-table {
-  margin: 0;
-
-  th {
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--bon-muted);
-    background: rgba(248, 243, 234, 0.78);
-  }
-
-  td,
-  th {
-    padding: 0.8rem 0.85rem;
-    vertical-align: top;
-    border-color: rgba(84, 62, 47, 0.08);
-  }
-}
-
-.table-label {
-  color: var(--bon-ink);
-}
-
-.table-meta {
-  margin-top: 0.28rem;
-}
-
 @media (max-width: 1080px) {
-  .payment-layout {
+  .journey-strip {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 720px) {
   .page-head,
-  .payment-form,
-  .preview-grid {
+  .payment-form {
     grid-template-columns: 1fr;
   }
 
   .page-head {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .payments-balance-card {
+    max-width: none;
   }
 }

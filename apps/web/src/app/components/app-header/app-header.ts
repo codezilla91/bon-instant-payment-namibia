@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostListener, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AmountVisibilityService } from '../../amount-visibility.service';
 
 interface HeaderNavItem {
   label: string;
@@ -15,13 +16,17 @@ interface HeaderNavItem {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppHeaderComponent {
+  private readonly amountVisibility = inject(AmountVisibilityService);
+
+  protected readonly apiDocsUrl = 'http://localhost:3000/api/docs';
   protected readonly navOpen = signal(false);
   protected readonly userMenuOpen = signal(false);
+  protected readonly amountsVisible = this.amountVisibility.amountsVisible;
 
   protected readonly user = {
-    name: 'Demo User',
-    initials: 'DU',
-    role: 'IPN Developer'
+    name: 'John Doe',
+    initials: 'JD',
+    role: 'Payments User'
   };
 
   protected readonly navItems: ReadonlyArray<HeaderNavItem> = [
@@ -29,7 +34,6 @@ export class AppHeaderComponent {
     { label: 'Dashboard', route: '/dashboard' },
     { label: 'Payments', route: '/payments' },
     { label: 'Transactions', route: '/activity' },
-    { label: 'Developer', route: '/developer' },
     { label: 'Support', route: '/support' }
   ];
 
@@ -44,6 +48,10 @@ export class AppHeaderComponent {
 
   protected toggleUserMenu(): void {
     this.userMenuOpen.update((v) => !v);
+  }
+
+  protected toggleAmountVisibility(): void {
+    this.amountVisibility.toggle();
   }
 
   @HostListener('document:click', ['$event'])

@@ -28,3 +28,9 @@ export interface PaymentLedgerState {
   availableBalance: number;
   payments: StoredPayment[];
 }
+
+export interface PaymentJourneyResult {
+  submission: PaymentSubmission;
+  response: PaymentApiResponse;
+  payment: StoredPayment;
+}

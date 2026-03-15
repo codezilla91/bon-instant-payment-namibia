@@ -1,14 +1,24 @@
 <footer class="shell-footer" id="footer">
   <div class="shell-footer__inner">
-    <div class="shell-footer__copy">
-      <strong>Instant Payment Namibia</strong>
-      <p>Focused routing for payments, activity, integration, and support.</p>
+    <div class="shell-footer__brand">
+      <img src="/bon-logo.png" alt="Bank of Namibia" class="shell-footer__logo" />
+      <div class="shell-footer__copy">
+        <strong>Instant Payment Namibia</strong>
+        <p>A simpler way to capture, confirm, and track domestic P2P payments.</p>
+      </div>
     </div>
 
-    <nav class="shell-footer__links" aria-label="Footer navigation">
-      <a *ngFor="let link of links" [routerLink]="link.route">{{ link.label }}</a>
-      <a href="/api/docs" target="_blank" rel="noreferrer">API Docs</a>
-      <a href="/api/health" target="_blank" rel="noreferrer">API Health</a>
-    </nav>
+    <div class="shell-footer__meta">
+      <nav class="shell-footer__links" aria-label="Footer navigation">
+        <a [routerLink]="['/']">Home</a>
+        <a *ngFor="let link of links" [routerLink]="link.route">{{ link.label }}</a>
+        <a [href]="apiDocsUrl" target="_blank" rel="noreferrer">Swagger docs</a>
+      </nav>
+
+      <div class="shell-footer__notes">
+        <span>Local workspace</span>
+        <span>Local payment history stored in browser</span>
+      </div>
+    </div>
   </div>
 </footer>

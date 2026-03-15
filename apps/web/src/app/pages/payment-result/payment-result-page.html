@@ -1,0 +1,173 @@
+<section class="page" *ngIf="result() as result; else missingResult">
+  <header class="page-head">
+    <div>
+      <p class="page-kicker">Payments</p>
+      <h1 class="page-title">{{ statusTitle() }}</h1>
+      <p class="page-subtitle">{{ result.response.message }}</p>
+    </div>
+
+    <span class="result-pill" [class.is-success]="result.response.status === 'SUCCESS'" [class.is-failed]="result.response.status === 'FAILED'">
+      {{ result.response.status }}
+    </span>
+  </header>
+
+  <section class="journey-strip surface">
+    <div class="journey-step is-complete">
+      <span>1</span>
+      <div>
+        <strong>Capture</strong>
+        <small>Payment details recorded</small>
+      </div>
+    </div>
+    <div class="journey-step is-complete">
+      <span>2</span>
+      <div>
+        <strong>Confirm</strong>
+        <small>Instruction reviewed</small>
+      </div>
+    </div>
+    <div class="journey-step is-active">
+      <span>3</span>
+      <div>
+        <strong>Result</strong>
+        <small>Payment outcome ready</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="surface receipt-surface">
+    <div class="status-hero" [class.is-success]="isSuccess()" [class.is-failed]="!isSuccess()">
+      <div class="status-hero__icon" [class.is-success]="isSuccess()" [class.is-failed]="!isSuccess()">
+        <svg *ngIf="isSuccess(); else failedIcon" width="38" height="38" viewBox="0 0 38 38" fill="none" aria-hidden="true">
+          <path d="M10 20.5L16.2 26.7L28.2 14.8" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <ng-template #failedIcon>
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+            <path d="M11 11L23 23M23 11L11 23" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" />
+          </svg>
+        </ng-template>
+      </div>
+
+      <div class="status-hero__copy">
+        <p class="status-hero__eyebrow">{{ statusEyebrow() }}</p>
+        <h2>{{ statusTitle() }}</h2>
+        <p>{{ result.response.message }}</p>
+      </div>
+
+      <div class="status-hero__amount">
+        <span>Amount</span>
+        <strong>{{ visibleAmount() }}</strong>
+      </div>
+    </div>
+
+    <div class="detail-section" *ngFor="let section of detailSections()">
+      <div class="detail-section__head">
+        <h2>{{ section.title }}</h2>
+      </div>
+
+      <div class="table-responsive detail-table-wrap">
+        <table class="table align-middle mb-0 detail-table">
+          <tbody>
+            <tr *ngFor="let item of section.items">
+              <th scope="row">{{ item.label }}</th>
+              <td>{{ item.value }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="surface proof-surface" *ngIf="isSuccess()">
+    <div class="section-head">
+      <div>
+        <h2>Proof of payment</h2>
+        <p>Download a branded PDF, open a print-ready proof, or prepare an optional notification handoff.</p>
+      </div>
+    </div>
+
+    <div class="proof-grid">
+      <section class="proof-card">
+        <h3>Receipt actions</h3>
+        <p>Use the generated proof for internal records or customer-facing confirmation.</p>
+
+        <div class="action-stack">
+          <button type="button" class="button-primary" (click)="downloadProof()">Download PDF</button>
+          <button type="button" class="button-secondary" (click)="printProof()">Print proof</button>
+        </div>
+      </section>
+
+      <section class="proof-card" [formGroup]="notificationForm">
+        <h3>Optional notifications</h3>
+        <p>Prepare an email or SMS handoff with the proof details.</p>
+
+        <div class="delivery-option">
+          <label class="delivery-toggle">
+            <input type="checkbox" class="form-check-input" formControlName="notifyByEmail" />
+            <span>Notify by email</span>
+          </label>
+
+          <input
+            *ngIf="notificationForm.controls.notifyByEmail.value"
+            type="email"
+            class="form-control"
+            formControlName="emailAddress"
+            placeholder="name@example.com"
+            autocomplete="email"
+          />
+
+          <button type="button" class="button-secondary" (click)="prepareEmailNotification()">
+            Prepare email
+          </button>
+        </div>
+
+        <div class="delivery-option">
+          <label class="delivery-toggle">
+            <input type="checkbox" class="form-check-input" formControlName="notifyBySms" />
+            <span>Notify by SMS</span>
+          </label>
+
+          <input
+            *ngIf="notificationForm.controls.notifyBySms.value"
+            type="tel"
+            class="form-control"
+            formControlName="smsNumber"
+            placeholder="+264 81 123 4567"
+            autocomplete="tel"
+          />
+
+          <button type="button" class="button-secondary" (click)="prepareSmsNotification()">
+            Prepare SMS
+          </button>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section class="surface">
+    <div class="section-head">
+      <div>
+        <h2>Next actions</h2>
+        <p>Continue from this transaction.</p>
+      </div>
+    </div>
+
+    <div class="final-actions">
+      <button type="button" class="button-primary" (click)="startNewPayment()">
+        {{ result.response.status === 'SUCCESS' ? 'Make another payment' : 'Create a new payment' }}
+      </button>
+      <button *ngIf="result.response.status === 'FAILED'" type="button" class="button-secondary" (click)="retryPayment()">
+        Edit and retry
+      </button>
+      <a class="button-secondary action-link" [routerLink]="['/activity']">View transactions</a>
+    </div>
+  </section>
+</section>
+
+<ng-template #missingResult>
+  <section class="surface empty-panel">
+    <h2 class="section-heading">No payment result available</h2>
+    <p class="empty-state">Complete a payment journey first, then this page will show the payment outcome.</p>
+    <a class="button-primary" [routerLink]="['/payments']">Create payment</a>
+  </section>
+</ng-template>

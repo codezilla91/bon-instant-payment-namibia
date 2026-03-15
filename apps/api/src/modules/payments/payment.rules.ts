@@ -1,12 +1,15 @@
-import type { P2PPaymentRequest, PaymentErrorResponse } from './types.js';
+import type { P2PPaymentRequest, PaymentErrorResponse } from './payment.types.js';
 
-export function applyMockBusinessRules(request: P2PPaymentRequest): PaymentErrorResponse | null {
-  if (request.senderAccountNumber.endsWith('0001') || request.amount > 25000) {
+export function applyMockBusinessRules(
+  request: P2PPaymentRequest,
+  availableBalance: number
+): PaymentErrorResponse | null {
+  if (request.senderAccountNumber.endsWith('0001') || request.amount > availableBalance) {
     return {
       status: 'FAILED',
       errorCode: 'ERR005',
       clientReference: request.clientReference,
-      message: 'Insufficient funds for this transaction.'
+      message: 'Your available balance is not enough for this payment.'
     };
   }
 
