@@ -1,0 +1,14 @@
+<footer class="shell-footer" id="footer">
+  <div class="shell-footer__inner">
+    <div class="shell-footer__copy">
+      <strong>Instant Payment Namibia</strong>
+      <p>Focused routing for payments, activity, integration, and support.</p>
+    </div>
+
+    <nav class="shell-footer__links" aria-label="Footer navigation">
+      <a *ngFor="let link of links" [routerLink]="link.route">{{ link.label }}</a>
+      <a href="/api/docs" target="_blank" rel="noreferrer">API Docs</a>
+      <a href="/api/health" target="_blank" rel="noreferrer">API Health</a>
+    </nav>
+  </div>
+</footer>

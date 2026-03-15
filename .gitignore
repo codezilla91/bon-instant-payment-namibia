@@ -1,0 +1,17 @@
+node_modules
+.pnpm-store
+.DS_Store
+
+# Build outputs
+dist
+coverage
+.angular
+
+# IDE
+.vscode
+.claude
+
+# Environment files
+.env
+.env.*
+!.env.example

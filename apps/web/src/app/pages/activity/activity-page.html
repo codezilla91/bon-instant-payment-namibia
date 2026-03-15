@@ -1,0 +1,69 @@
+<section class="page">
+  <header class="page-head">
+    <div>
+      <p class="page-kicker">Transactions</p>
+      <h1 class="page-title">Transaction history</h1>
+      <p class="page-subtitle">Review recent payments and filter by outcome.</p>
+    </div>
+
+    <button type="button" class="button-secondary" (click)="clearLedger()">Reset history</button>
+  </header>
+
+  <section class="metric-grid metric-grid--four">
+    <article class="metric-card" *ngFor="let card of metricCards()">
+      <span>{{ card.label }}</span>
+      <strong>{{ card.value }}</strong>
+    </article>
+  </section>
+
+  <section class="surface">
+    <div class="section-head section-head--toolbar">
+      <div>
+        <h2>Recent transactions</h2>
+        <p>Current payment history stored in this browser.</p>
+      </div>
+
+      <div class="filter-set" aria-label="Filter transactions">
+        <button type="button" [class.is-active]="filter() === 'ALL'" (click)="setFilter('ALL')">All</button>
+        <button type="button" [class.is-active]="filter() === 'SUCCESS'" (click)="setFilter('SUCCESS')">Successful</button>
+        <button type="button" [class.is-active]="filter() === 'FAILED'" (click)="setFilter('FAILED')">Failed</button>
+      </div>
+    </div>
+
+    <div class="table-responsive transaction-table-wrap" *ngIf="filteredPayments().length; else emptyState">
+      <table class="table table-hover align-middle mb-0 transaction-table">
+        <thead>
+          <tr>
+            <th scope="col">Reference</th>
+            <th scope="col">Sender</th>
+            <th scope="col">Receiver</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Status</th>
+            <th scope="col">Recorded</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let payment of filteredPayments(); trackBy: trackPayment">
+            <td>
+              <strong class="table-label">{{ payment.reference }}</strong>
+              <div class="table-meta"><code>{{ payment.clientReference }}</code></div>
+            </td>
+            <td><code>{{ payment.senderAccountNumber }}</code></td>
+            <td><code>{{ payment.receiverAccountNumber }}</code></td>
+            <td class="text-nowrap">{{ formatAmount(payment) }}</td>
+            <td>
+              <span class="status-badge" [class.is-success]="payment.status === 'SUCCESS'" [class.is-failed]="payment.status === 'FAILED'">
+                {{ payment.status }}
+              </span>
+            </td>
+            <td class="text-nowrap">{{ formatTimestamp(payment.createdAt) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #emptyState>
+      <p class="empty-state">No transactions have been recorded yet.</p>
+    </ng-template>
+  </section>
+</section>

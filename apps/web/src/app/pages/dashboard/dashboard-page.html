@@ -1,0 +1,91 @@
+<section class="page">
+  <section class="hero surface">
+    <div class="hero__copy">
+      <p class="page-kicker">Instant Payment Namibia</p>
+      <h1 class="page-title">Payment Dashboard</h1>
+      <p class="page-subtitle">Monitor P2P payment activity, submit new instructions, and track transaction outcomes.</p>
+
+      <div class="hero__actions">
+        <a *ngFor="let action of quickActions" class="action-card" [routerLink]="action.route">
+          <span>{{ action.label }}</span>
+          <strong>{{ action.title }}</strong>
+          <small>{{ action.meta }}</small>
+        </a>
+      </div>
+    </div>
+
+    <aside class="spotlight">
+      <div class="spotlight__balance-head">
+        <span class="spotlight__label">Available Balance</span>
+        <button class="spotlight__eye" type="button" (click)="toggleBalance()" [attr.aria-label]="balanceVisible() ? 'Hide balance' : 'Show balance'">
+          <svg *ngIf="balanceVisible(); else eyeOffTpl" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M1 8C1 8 3.5 3 8 3C12.5 3 15 8 15 8C15 8 12.5 13 8 13C3.5 13 1 8 1 8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+            <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+          <ng-template #eyeOffTpl>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M1.5 1.5L14.5 14.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M6.3 6.4A2 2 0 009.5 9.6M3 3.5C1.9 4.7 1 8 1 8C1 8 3.5 13 8 13C9.5 13 10.9 12.4 12 11.5M5.5 2.7C6.3 2.3 7.1 2 8 2C12.5 2 15 8 15 8C15 8 14.4 9.5 13.5 10.7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </ng-template>
+        </button>
+      </div>
+      <strong>{{ balanceLabel() }}</strong>
+
+      <div class="spotlight__detail">
+        <span>Latest Transaction</span>
+        <strong>{{ latestPayment() ? latestPayment()!.clientReference : 'No activity yet' }}</strong>
+      </div>
+    </aside>
+  </section>
+
+  <section class="metric-grid metric-grid--four">
+    <article class="metric-card" *ngFor="let card of metricCards()">
+      <span>{{ card.label }}</span>
+      <strong>{{ card.value }}</strong>
+    </article>
+  </section>
+
+  <section class="surface">
+    <div class="section-head">
+      <div>
+        <h2>Recent transactions</h2>
+        <p>Latest payment submissions.</p>
+      </div>
+
+      <a class="link-action" [routerLink]="['/activity']">View all</a>
+    </div>
+
+    <div class="table-responsive transaction-table-wrap" *ngIf="recentPayments().length; else emptyState">
+      <table class="table table-sm align-middle mb-0 transaction-table">
+        <thead>
+          <tr>
+            <th scope="col">Reference</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Status</th>
+            <th scope="col">Recorded</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let payment of recentPayments(); trackBy: trackPayment">
+            <td>
+              <strong class="table-label">{{ payment.reference }}</strong>
+              <div class="table-meta"><code>{{ payment.clientReference }}</code></div>
+            </td>
+            <td class="text-nowrap">{{ formatAmount(payment) }}</td>
+            <td>
+              <span class="status-badge" [class.is-success]="payment.status === 'SUCCESS'" [class.is-failed]="payment.status === 'FAILED'">
+                {{ payment.status }}
+              </span>
+            </td>
+            <td class="text-nowrap">{{ formatTimestamp(payment.createdAt) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #emptyState>
+      <p class="empty-state">No transactions have been submitted yet.</p>
+    </ng-template>
+  </section>
+</section>

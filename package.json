@@ -1,0 +1,26 @@
+{
+  "name": "bank_of_namibia_p2p",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Monorepo for the Bank of Namibia IPN P2P integration challenge.",
+  "packageManager": "pnpm@10.26.2",
+  "engines": {
+    "node": "^20.0.0 || ^22.0.0"
+  },
+  "scripts": {
+    "start": "node scripts/start.mjs",
+    "dev": "node scripts/start.mjs --skip-install --no-open",
+    "dev:all": "node scripts/start.mjs --skip-install --no-open",
+    "dev:api": "npm --prefix apps/api run dev",
+    "dev:web": "npm --prefix apps/web run dev",
+    "build": "npm run build:api && npm run build:web",
+    "build:api": "npm --prefix apps/api run build",
+    "build:web": "npm --prefix apps/web run build",
+    "test": "npm run test:api",
+    "test:api": "npm --prefix apps/api run test",
+    "test:web": "npm --prefix apps/web run test -- --watch=false",
+    "lint": "npm run lint:api && npm run lint:web",
+    "lint:api": "npm --prefix apps/api run lint",
+    "lint:web": "npm --prefix apps/web run lint"
+  }
+}

@@ -1,0 +1,21 @@
+<div class="toast-stack" aria-live="polite" aria-atomic="false">
+  <div
+    *ngFor="let toast of toastService.toasts(); trackBy: trackToast"
+    class="toast-item"
+    [class.toast-item--success]="toast.type === 'success'"
+    [class.toast-item--error]="toast.type === 'error'"
+    [class.toast-item--info]="toast.type === 'info'"
+    role="alert"
+  >
+    <div class="toast-item__icon">
+      <span *ngIf="toast.type === 'success'">✓</span>
+      <span *ngIf="toast.type === 'error'">✕</span>
+      <span *ngIf="toast.type === 'info'">i</span>
+    </div>
+    <div class="toast-item__body">
+      <strong class="toast-item__title">{{ toast.title }}</strong>
+      <p class="toast-item__message">{{ toast.message }}</p>
+    </div>
+    <button class="toast-item__close" type="button" (click)="toastService.dismiss(toast.id)" aria-label="Dismiss">✕</button>
+  </div>
+</div>

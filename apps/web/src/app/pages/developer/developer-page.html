@@ -1,0 +1,128 @@
+<section class="page">
+  <header class="page-head">
+    <div>
+      <p class="page-kicker">Developer</p>
+      <h1 class="page-title">Integration workspace</h1>
+      <p class="page-subtitle">Endpoint access, payload structure, and response handling in one place.</p>
+    </div>
+
+    <div class="action-row">
+      <a class="link-action" href="/api/docs" target="_blank" rel="noreferrer">Open API Docs</a>
+      <a class="link-action" href="/api/openapi.json" target="_blank" rel="noreferrer">Open OpenAPI</a>
+    </div>
+  </header>
+
+  <section class="developer-layout">
+    <section class="surface">
+      <div class="section-head">
+        <div>
+          <h2>Endpoints</h2>
+          <p>Primary routes available in the assessment environment.</p>
+        </div>
+      </div>
+
+      <div class="endpoint-grid">
+        <article class="endpoint-card">
+          <span>POST</span>
+          <strong>/api/p2p-payment</strong>
+          <small>Submit a person-to-person payment instruction.</small>
+        </article>
+        <article class="endpoint-card">
+          <span>GET</span>
+          <strong>/api/health</strong>
+          <small>Check API availability.</small>
+        </article>
+        <article class="endpoint-card">
+          <span>GET</span>
+          <strong>/api/docs</strong>
+          <small>Browse Swagger UI.</small>
+        </article>
+        <article class="endpoint-card">
+          <span>GET</span>
+          <strong>/api/openapi.json</strong>
+          <small>Fetch the machine-readable contract.</small>
+        </article>
+      </div>
+
+      <div class="code-card">
+        <div class="code-card__head">
+          <strong>Sample payload</strong>
+          <button type="button" class="button-secondary" (click)="copyPayload()">
+            {{ copied() ? 'Copied' : 'Copy JSON' }}
+          </button>
+        </div>
+
+        <pre><code>{{ samplePayload }}</code></pre>
+      </div>
+    </section>
+
+    <aside class="developer-side">
+      <section class="surface">
+        <div class="section-head">
+          <div>
+            <h2>Response states</h2>
+            <p>Primary outcomes surfaced by the API.</p>
+          </div>
+        </div>
+
+        <div class="response-state-grid">
+          <article *ngFor="let state of responseStates">
+            <div class="response-state__codes">
+              <span class="response-state__err" [class.is-success]="state.code === 'SUCCESS'">{{ state.code }}</span>
+              <span class="response-state__http">{{ state.http }}</span>
+            </div>
+            <strong>{{ state.title }}</strong>
+          </article>
+        </div>
+      </section>
+
+      <section class="surface">
+        <div class="section-head">
+          <div>
+            <h2>Runtime</h2>
+            <p>Evaluator shortcuts.</p>
+          </div>
+        </div>
+
+        <div class="runtime-grid">
+          <div>
+            <span>Web</span>
+            <strong>http://localhost:4200</strong>
+          </div>
+          <div>
+            <span>API</span>
+            <strong>http://localhost:3000</strong>
+          </div>
+          <div>
+            <span>Currency</span>
+            <strong>NAD only</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="surface">
+        <div class="section-head">
+          <div>
+            <h2>Test headers</h2>
+            <p>Force specific error states in any valid request.</p>
+          </div>
+        </div>
+
+        <div class="runtime-grid">
+          <div class="runtime-grid__full">
+            <span>x-simulate-error: ERR006</span>
+            <strong>Forces a 500 internal processing error response.</strong>
+          </div>
+          <div class="runtime-grid__full">
+            <span>Sender ending in 0001</span>
+            <strong>Triggers ERR005 — insufficient funds (402).</strong>
+          </div>
+          <div class="runtime-grid__full">
+            <span>Sender or receiver ending in 9999</span>
+            <strong>Triggers ERR006 — internal error (500).</strong>
+          </div>
+        </div>
+      </section>
+    </aside>
+  </section>
+</section>

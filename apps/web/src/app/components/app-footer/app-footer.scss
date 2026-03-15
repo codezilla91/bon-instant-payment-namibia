@@ -1,0 +1,54 @@
+:host {
+  display: block;
+}
+
+.shell-footer {
+  border-top: 1px solid rgba(84, 62, 47, 0.12);
+  background: rgba(252, 249, 243, 0.9);
+}
+
+.shell-footer__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem 1.35rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.shell-footer__copy strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--bon-ink);
+}
+
+.shell-footer__copy p {
+  margin: 0.25rem 0 0;
+  color: var(--bon-muted);
+  font-size: 0.84rem;
+}
+
+.shell-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.shell-footer__links a {
+  text-decoration: none;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--bon-burgundy);
+  padding: 0.55rem 0.8rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(84, 62, 47, 0.12);
+}
+
+@media (max-width: 720px) {
+  .shell-footer__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

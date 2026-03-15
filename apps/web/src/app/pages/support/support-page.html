@@ -1,0 +1,115 @@
+<section class="page">
+  <header class="page-head">
+    <div>
+      <p class="page-kicker">Support</p>
+      <h1 class="page-title">Support centre</h1>
+      <p class="page-subtitle">Check runtime health, log a request, and keep support activity visible.</p>
+    </div>
+
+    <button type="button" class="button-secondary" (click)="refreshHealth()">
+      {{ checkingHealth() ? 'Checking...' : 'Refresh status' }}
+    </button>
+  </header>
+
+  <section class="support-layout">
+    <section class="surface">
+      <div class="section-head">
+        <div>
+          <h2>Raise support request</h2>
+          <p>Capture operational or integration issues.</p>
+        </div>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submitTicket()" class="support-form">
+        <div class="field">
+          <div class="field-head">
+            <label class="form-label mb-0" for="category">Category</label>
+          </div>
+          <select id="category" class="form-control form-select" formControlName="category">
+            <option value="API">API</option>
+            <option value="Payments">Payments</option>
+            <option value="Validation">Validation</option>
+            <option value="Access">Access</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <div class="field-head">
+            <label class="form-label mb-0" for="severity">Severity</label>
+          </div>
+          <select id="severity" class="form-control form-select" formControlName="severity">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+
+        <div class="field field--wide">
+          <div class="field-head">
+            <label class="form-label mb-0" for="subject">Subject</label>
+            <small>{{ form.controls.subject.value.length }}/60</small>
+          </div>
+          <input id="subject" type="text" class="form-control" formControlName="subject" placeholder="Duplicate reference returned" autocomplete="off" />
+        </div>
+
+        <div class="field field--wide">
+          <div class="field-head">
+            <label class="form-label mb-0" for="detail">Detail</label>
+            <small>{{ form.controls.detail.value.length }}/240</small>
+          </div>
+          <textarea id="detail" class="form-control" formControlName="detail" placeholder="Summarise the issue and expected outcome."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="button-primary">Log request</button>
+        </div>
+      </form>
+    </section>
+
+    <aside class="support-side">
+      <section class="surface status-panel" [class.is-up]="health().status === 'UP'" [class.is-down]="health().status === 'DOWN'">
+        <span class="status-panel__label">API status</span>
+        <strong>{{ health().status === 'UP' ? 'Online' : health().status === 'DOWN' ? 'Unavailable' : 'Checking' }}</strong>
+        <p>{{ health().message }}</p>
+
+        <div class="status-panel__meta">
+          <span>{{ health().service }}</span>
+          <span *ngIf="health().checkedAt">{{ formatTimestamp(health().checkedAt!) }}</span>
+        </div>
+
+        <div class="status-panel__links">
+          <a class="link-action" href="/api/health" target="_blank" rel="noreferrer">Open health</a>
+          <a class="link-action" href="/api/docs" target="_blank" rel="noreferrer">Open docs</a>
+        </div>
+      </section>
+
+      <section class="surface">
+        <div class="section-head">
+          <div>
+            <h2>Recent requests</h2>
+            <p>Latest locally logged support items.</p>
+          </div>
+
+          <button type="button" class="button-secondary" (click)="clearTickets()">Clear</button>
+        </div>
+
+        <ul class="ticket-list" *ngIf="tickets().length; else emptyTickets">
+          <li *ngFor="let ticket of tickets(); trackBy: trackTicket">
+            <div class="ticket-list__row">
+              <strong>{{ ticket.subject }}</strong>
+              <span class="status-badge is-failed">{{ ticket.severity }}</span>
+            </div>
+            <div class="ticket-list__row ticket-list__row--detail">
+              <span>{{ ticket.category }}</span>
+              <span>{{ formatTimestamp(ticket.createdAt) }}</span>
+            </div>
+          </li>
+        </ul>
+
+        <ng-template #emptyTickets>
+          <p class="empty-state">No support requests logged yet.</p>
+        </ng-template>
+      </section>
+    </aside>
+  </section>
+</section>

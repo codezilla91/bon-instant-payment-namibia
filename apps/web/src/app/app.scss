@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+.app-shell {
+  max-width: 1520px;
+  margin: 0 auto;
+  padding: 1.4rem 2rem 2.5rem;
+}
+
+.route-stage {
+  min-height: calc(100vh - 184px);
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    padding-inline: 1rem;
+  }
+}

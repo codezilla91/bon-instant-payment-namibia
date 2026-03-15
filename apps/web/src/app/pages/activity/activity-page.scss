@@ -1,0 +1,63 @@
+:host {
+  display: block;
+}
+
+.section-head--toolbar {
+  align-items: center;
+}
+
+.filter-set {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-set button {
+  min-height: 2.5rem;
+  padding-inline: 0.9rem;
+  border-radius: 10px;
+  border: 1px solid rgba(84, 62, 47, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--bon-muted);
+  font-weight: 800;
+}
+
+.filter-set button.is-active {
+  background: linear-gradient(135deg, var(--bon-burgundy), var(--bon-burgundy-deep));
+  color: #fff;
+  border-color: transparent;
+}
+
+.transaction-table-wrap {
+  border: 1px solid rgba(84, 62, 47, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.transaction-table {
+  margin: 0;
+
+  th {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bon-muted);
+    background: rgba(248, 243, 234, 0.78);
+  }
+
+  td,
+  th {
+    padding: 0.85rem 0.9rem;
+    border-color: rgba(84, 62, 47, 0.08);
+    vertical-align: top;
+  }
+}
+
+.table-label {
+  color: var(--bon-ink);
+}
+
+.table-meta {
+  margin-top: 0.28rem;
+}

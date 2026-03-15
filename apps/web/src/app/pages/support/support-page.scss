@@ -1,0 +1,128 @@
+:host {
+  display: block;
+}
+
+.support-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.95fr);
+  gap: 1rem;
+}
+
+.support-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem 1rem;
+}
+
+.field--wide,
+.form-actions {
+  grid-column: 1 / -1;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.support-side {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.status-panel {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.status-panel__label,
+.status-panel__meta span {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status-panel__label {
+  color: var(--bon-muted);
+}
+
+.status-panel strong {
+  font-size: 1.4rem;
+  color: var(--bon-ink);
+}
+
+.status-panel.is-up {
+  border-color: rgba(30, 120, 64, 0.18);
+}
+
+.status-panel.is-down {
+  border-color: rgba(153, 51, 51, 0.18);
+}
+
+.status-panel p {
+  margin: 0;
+  color: var(--bon-muted);
+}
+
+.status-panel__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(84, 62, 47, 0.08);
+  color: var(--bon-muted);
+}
+
+.status-panel__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.ticket-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ticket-list li + li {
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(84, 62, 47, 0.08);
+}
+
+.ticket-list__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.ticket-list__row--detail {
+  margin-top: 0.3rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  color: var(--bon-muted);
+  font-size: 0.84rem;
+}
+
+@media (max-width: 1080px) {
+  .support-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .support-form,
+  .ticket-list__row,
+  .status-panel__meta {
+    grid-template-columns: 1fr;
+  }
+
+  .ticket-list__row,
+  .status-panel__meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
