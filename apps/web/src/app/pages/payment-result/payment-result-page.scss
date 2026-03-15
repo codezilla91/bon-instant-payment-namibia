@@ -8,32 +8,6 @@
   gap: 1.15rem;
 }
 
-.result-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 8rem;
-  padding: 0.8rem 1rem;
-  border-radius: 999px;
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border: 1px solid transparent;
-
-  &.is-success {
-    background: rgba(30, 120, 64, 0.12);
-    color: #176236;
-    border-color: rgba(30, 120, 64, 0.14);
-  }
-
-  &.is-failed {
-    background: rgba(153, 51, 51, 0.08);
-    color: var(--bon-burgundy);
-    border-color: rgba(153, 51, 51, 0.12);
-  }
-}
-
 .journey-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -310,10 +284,6 @@
 }
 
 @media (max-width: 720px) {
-  .result-pill {
-    min-width: 100%;
-  }
-
   .final-actions {
     flex-direction: column;
   }

@@ -5,10 +5,6 @@
       <h1 class="page-title">{{ statusTitle() }}</h1>
       <p class="page-subtitle">{{ result.response.message }}</p>
     </div>
-
-    <span class="result-pill" [class.is-success]="result.response.status === 'SUCCESS'" [class.is-failed]="result.response.status === 'FAILED'">
-      {{ result.response.status }}
-    </span>
   </header>
 
   <section class="journey-strip surface">

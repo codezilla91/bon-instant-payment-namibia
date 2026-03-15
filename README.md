@@ -23,17 +23,6 @@ Useful local URLs:
 - OpenAPI JSON: `http://localhost:3000/api/openapi.json`
 - API log file: `logs/api.log`
 
-## Challenge Checklist
-
-- [x] Capture the required payment details in the web interface
-- [x] Build and submit the payment request to `POST /api/p2p-payment`
-- [x] Validate inputs on the client before the payment can continue
-- [x] Validate the same rules again on the API
-- [x] Display transaction status, transaction ID when issued, payment reference ID, and the service message
-- [x] Keep the implementation inside the stated scope of the challenge
-- [x] Document setup, assumptions, and the integration approach in this README
-- [ ] Add the final screenshot pack to the submission bundle: payment form and payment result
-
 ## What Was Built
 
 - multi-page Angular flow for payment capture, confirmation, result, transaction history, support, and dashboard views
