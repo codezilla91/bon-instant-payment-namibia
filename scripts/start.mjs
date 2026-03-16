@@ -15,7 +15,8 @@ const apiWorkspace = '@bon-p2p/api';
 const webWorkspace = '@bon-p2p/web';
 const supportedNodeRanges = [
   { major: 20, minor: 19, patch: 0 },
-  { major: 22, minor: 12, patch: 0 }
+  { major: 22, minor: 13, patch: 0 },
+  { major: 24, minor: 0, patch: 0 }
 ];
 
 let serviceProcesses = [];
@@ -85,7 +86,7 @@ function validateNodeVersion() {
 
   if (!supported) {
     throw new Error(
-      `Unsupported Node.js version ${process.version}. Use Node 22.12.0+ (recommended) or Node 20.19.0+ before running npm start.`
+      `Unsupported Node.js version ${process.version}. Use Node 20.19.0+, Node 22.13.0+ (recommended: 22.22.0), or Node 24.0.0+ before running npm start.`
     );
   }
 }

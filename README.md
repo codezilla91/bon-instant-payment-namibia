@@ -6,8 +6,10 @@ Angular web application and Node.js API for the IPN P2P payment challenge.
 
 Prerequisites:
 
-- Node `22.12.0+` LTS recommended
+- Node `22.22.0` LTS recommended
+- Node `22.13.0+` LTS compatible
 - Node `20.19.0+` LTS also supported
+- Node `24.0.0+` also works if that is already your active Angular-compatible runtime
 - npm is included with Node
 
 Odd-numbered or current non-LTS Node releases should not be used for evaluation.

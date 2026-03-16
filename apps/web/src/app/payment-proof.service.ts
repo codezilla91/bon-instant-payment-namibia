@@ -93,6 +93,8 @@ export class PaymentProofService {
     const statusColor = result.response.status === 'SUCCESS' ? [30, 120, 64] : [153, 51, 51];
     const softStatusColor = result.response.status === 'SUCCESS' ? [235, 246, 239] : [249, 239, 239];
     const logoDataUrl = await this.loadLogoDataUrl();
+    const assessmentDisclaimer =
+      'Assessment environment. This practical test site is for technical evaluation only and must not be used for live payments.';
 
     pdf.setFillColor(255, 253, 247);
     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
@@ -116,7 +118,21 @@ export class PaymentProofService {
     pdf.text('Bank of Namibia | Instant Payment Namibia', pageWidth - margin, 52, { align: 'right' });
     pdf.text(`Generated ${formatDateTime(new Date())}`, pageWidth - margin, 64, { align: 'right' });
 
-    const heroY = 112;
+    const noticeY = 100;
+    pdf.setFillColor(252, 244, 232);
+    pdf.setDrawColor(232, 224, 211);
+    pdf.roundedRect(margin, noticeY, pageWidth - margin * 2, 34, 10, 10, 'FD');
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(8.5);
+    pdf.setTextColor(153, 51, 51);
+    pdf.text('ASSESSMENT NOTICE', margin + 12, noticeY + 14);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(8.5);
+    pdf.setTextColor(109, 90, 76);
+    const disclaimerLines = pdf.splitTextToSize(assessmentDisclaimer, pageWidth - margin * 2 - 24);
+    pdf.text(disclaimerLines, margin + 12, noticeY + 26);
+
+    const heroY = 146;
     pdf.setFillColor(255, 255, 255);
     pdf.setDrawColor(232, 224, 211);
     pdf.roundedRect(margin, heroY, pageWidth - margin * 2, 96, 14, 14, 'FD');
@@ -181,7 +197,7 @@ export class PaymentProofService {
     pdf.setFontSize(type.footer);
     pdf.setTextColor(109, 90, 76);
     const footerNote = pdf.splitTextToSize(
-      'This system-generated proof reflects the payment outcome captured when the payment was made. Retain it with your payment records.',
+      'Assessment environment. This system-generated proof is for technical evaluation only, reflects the recorded payment outcome, and must not be used for live payments.',
       pageWidth - margin * 2 - 120
     );
     pdf.text(footerNote, margin, pageHeight - 50);
