@@ -9,6 +9,8 @@ const webUrl = process.env.BON_WEB_URL ?? 'http://127.0.0.1:4200';
 const shouldOpenBrowser = !process.argv.includes('--no-open');
 const isWindows = process.platform === 'win32';
 const npmCommand = isWindows ? 'npm.cmd' : 'npm';
+const apiWorkspace = '@bon-p2p/api';
+const webWorkspace = '@bon-p2p/web';
 
 let serviceProcesses = [];
 let shuttingDown = false;
@@ -100,9 +102,9 @@ function openBrowser(url) {
   process.stdout.write(`Open ${url} manually if your browser did not launch.\n`);
 }
 
-function startService(label, cwd) {
-  const child = spawn(npmCommand, ['run', 'serve'], {
-    cwd,
+function startWorkspaceService(label, workspaceName) {
+  const child = spawn(npmCommand, ['run', 'serve', '-w', workspaceName], {
+    cwd: rootDir,
     shell: false,
     env: {
       ...process.env,
@@ -144,10 +146,10 @@ function shutdown(code = 0) {
   }, 250);
 }
 
-async function runNpmScript(label, cwd, scriptName) {
+async function runWorkspaceScript(label, workspaceName, scriptName) {
   process.stdout.write(`${label}...\n`);
-  const child = spawn(npmCommand, ['run', scriptName], {
-    cwd,
+  const child = spawn(npmCommand, ['run', scriptName, '-w', workspaceName], {
+    cwd: rootDir,
     shell: false,
     stdio: 'inherit'
   });
@@ -156,13 +158,13 @@ async function runNpmScript(label, cwd, scriptName) {
 
 async function main() {
   process.stdout.write('Starting Bank of Namibia P2P challenge app...\n');
-  process.stdout.write('Install dependencies first with npm install if this is a fresh clone.\n');
+  process.stdout.write('Run npm install once after cloning, then use npm start.\n');
 
-  await runNpmScript('Building API', path.join(rootDir, 'apps', 'api'), 'build');
+  await runWorkspaceScript('Building API', apiWorkspace, 'build');
 
   serviceProcesses = [
-    startService('api', path.join(rootDir, 'apps', 'api')),
-    startService('web', path.join(rootDir, 'apps', 'web'))
+    startWorkspaceService('api', apiWorkspace),
+    startWorkspaceService('web', webWorkspace)
   ];
 
   await Promise.all([waitForUrl(apiHealthUrl, 'API'), waitForUrl(webUrl, 'Web')]);

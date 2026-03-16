@@ -3,24 +3,27 @@
   "private": true,
   "version": "0.1.0",
   "description": "Monorepo for the Bank of Namibia IPN P2P integration challenge.",
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
   "engines": {
     "node": "^20.0.0 || ^22.0.0"
   },
   "scripts": {
-    "postinstall": "node scripts/postinstall.mjs",
     "start": "node scripts/start.mjs",
     "dev": "node scripts/start.mjs --no-open",
     "dev:all": "node scripts/start.mjs --no-open",
-    "dev:api": "npm --prefix apps/api run dev",
-    "dev:web": "npm --prefix apps/web run dev",
+    "dev:api": "npm run dev -w @bon-p2p/api",
+    "dev:web": "npm run dev -w @bon-p2p/web",
     "build": "npm run build:api && npm run build:web",
-    "build:api": "npm --prefix apps/api run build",
-    "build:web": "npm --prefix apps/web run build",
+    "build:api": "npm run build -w @bon-p2p/api",
+    "build:web": "npm run build -w @bon-p2p/web",
     "test": "npm run test:api",
-    "test:api": "npm --prefix apps/api run test",
-    "test:web": "npm --prefix apps/web run test -- --watch=false",
+    "test:api": "npm run test -w @bon-p2p/api",
+    "test:web": "npm run test -w @bon-p2p/web -- --watch=false",
     "lint": "npm run lint:api && npm run lint:web",
-    "lint:api": "npm --prefix apps/api run lint",
-    "lint:web": "npm --prefix apps/web run lint"
+    "lint:api": "npm run lint -w @bon-p2p/api",
+    "lint:web": "npm run lint -w @bon-p2p/web"
   }
 }

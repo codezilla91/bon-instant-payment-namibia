@@ -13,7 +13,7 @@ npm install
 npm start
 ```
 
-`npm install` installs the root package and then installs the API and web dependencies with npm.
+`npm install` installs the API and web dependencies through npm workspaces.
 `npm start` starts both the API and the web app, waits for them to become ready, and opens the browser automatically.
 
 Useful local URLs:
