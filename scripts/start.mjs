@@ -6,50 +6,12 @@ import process from 'node:process';
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const apiHealthUrl = process.env.BON_API_HEALTH_URL ?? 'http://127.0.0.1:3000/api/health';
 const webUrl = process.env.BON_WEB_URL ?? 'http://127.0.0.1:4200';
-const shouldSkipInstall = process.argv.includes('--skip-install');
 const shouldOpenBrowser = !process.argv.includes('--no-open');
 const isWindows = process.platform === 'win32';
 const npmCommand = isWindows ? 'npm.cmd' : 'npm';
 
 let serviceProcesses = [];
 let shuttingDown = false;
-
-function resolvePackageManager() {
-  const candidates = [
-    { label: 'pnpm', command: isWindows ? 'pnpm.cmd' : 'pnpm', prefix: [] },
-    { label: 'corepack pnpm', command: isWindows ? 'corepack.cmd' : 'corepack', prefix: ['pnpm'] },
-    {
-      label: 'npx pnpm',
-      command: isWindows ? 'npx.cmd' : 'npx',
-      prefix: ['-y', 'pnpm@10.26.2']
-    }
-  ];
-
-  for (const candidate of candidates) {
-    const result = spawnSync(candidate.command, [...candidate.prefix, '--version'], {
-      cwd: rootDir,
-      stdio: 'ignore'
-    });
-
-    if (result.status === 0) {
-      return candidate;
-    }
-  }
-
-  throw new Error('Unable to locate pnpm. Install pnpm or ensure npm can run npx.');
-}
-
-function packageManagerArgs(packageManager, args) {
-  return [...packageManager.prefix, ...args];
-}
-
-function runPackageManager(packageManager, args, options = {}) {
-  return spawn(packageManager.command, packageManagerArgs(packageManager, args), {
-    cwd: rootDir,
-    shell: false,
-    ...options
-  });
-}
 
 function prefixStream(label, stream, target) {
   if (!stream) {
@@ -182,14 +144,6 @@ function shutdown(code = 0) {
   }, 250);
 }
 
-async function installDependencies(packageManager) {
-  process.stdout.write('Installing workspace dependencies...\n');
-  const installProcess = runPackageManager(packageManager, ['install', '--frozen-lockfile'], {
-    stdio: 'inherit'
-  });
-  await waitForProcess(installProcess, 'Dependency installation');
-}
-
 async function runNpmScript(label, cwd, scriptName) {
   process.stdout.write(`${label}...\n`);
   const child = spawn(npmCommand, ['run', scriptName], {
@@ -201,14 +155,8 @@ async function runNpmScript(label, cwd, scriptName) {
 }
 
 async function main() {
-  process.stdout.write('Bootstrapping Bank of Namibia P2P challenge app...\n');
-
-  if (!shouldSkipInstall) {
-    const packageManager = resolvePackageManager();
-    await installDependencies(packageManager);
-  } else {
-    process.stdout.write('Skipping dependency installation.\n');
-  }
+  process.stdout.write('Starting Bank of Namibia P2P challenge app...\n');
+  process.stdout.write('Install dependencies first with npm install if this is a fresh clone.\n');
 
   await runNpmScript('Building API', path.join(rootDir, 'apps', 'api'), 'build');
 

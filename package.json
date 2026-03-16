@@ -3,14 +3,14 @@
   "private": true,
   "version": "0.1.0",
   "description": "Monorepo for the Bank of Namibia IPN P2P integration challenge.",
-  "packageManager": "pnpm@10.26.2",
   "engines": {
     "node": "^20.0.0 || ^22.0.0"
   },
   "scripts": {
+    "postinstall": "node scripts/postinstall.mjs",
     "start": "node scripts/start.mjs",
-    "dev": "node scripts/start.mjs --skip-install --no-open",
-    "dev:all": "node scripts/start.mjs --skip-install --no-open",
+    "dev": "node scripts/start.mjs --no-open",
+    "dev:all": "node scripts/start.mjs --no-open",
     "dev:api": "npm --prefix apps/api run dev",
     "dev:web": "npm --prefix apps/web run dev",
     "build": "npm run build:api && npm run build:web",

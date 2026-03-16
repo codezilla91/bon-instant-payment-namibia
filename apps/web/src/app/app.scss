@@ -8,6 +8,26 @@
   padding: 1.4rem 2rem 2.5rem;
 }
 
+.environment-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 1rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid rgba(153, 51, 51, 0.16);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(153, 51, 51, 0.08), rgba(190, 158, 83, 0.08));
+  color: var(--bon-ink);
+  font-size: 0.88rem;
+  line-height: 1.5;
+
+  strong {
+    color: var(--bon-burgundy);
+    font-weight: 800;
+    white-space: nowrap;
+  }
+}
+
 .route-stage {
   min-height: calc(100vh - 184px);
 }
@@ -15,5 +35,15 @@
 @media (max-width: 720px) {
   .app-shell {
     padding-inline: 1rem;
+  }
+
+  .environment-banner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.2rem;
+
+    strong {
+      white-space: normal;
+    }
   }
 }
