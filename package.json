@@ -8,7 +8,7 @@
     "apps/web"
   ],
   "engines": {
-    "node": "^20.0.0 || ^22.0.0"
+    "node": "^20.19.0 || ^22.12.0"
   },
   "scripts": {
     "start": "node scripts/start.mjs",
@@ -21,6 +21,7 @@
     "build:web": "npm run build -w @bon-p2p/web",
     "test": "npm run test:api",
     "test:api": "npm run test -w @bon-p2p/api",
+    "test:startup": "node scripts/smoke-start.mjs",
     "test:web": "npm run test -w @bon-p2p/web -- --watch=false",
     "lint": "npm run lint:api && npm run lint:web",
     "lint:api": "npm run lint -w @bon-p2p/api",

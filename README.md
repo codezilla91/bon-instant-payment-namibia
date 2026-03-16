@@ -4,7 +4,15 @@ Angular web application and Node.js API for the IPN P2P payment challenge.
 
 ## Run
 
-Use Node 20 or Node 22 LTS, then run:
+Prerequisites:
+
+- Node `22.12.0+` LTS recommended
+- Node `20.19.0+` LTS also supported
+- npm is included with Node
+
+Odd-numbered or current non-LTS Node releases should not be used for evaluation.
+
+Then run:
 
 ```bash
 git clone https://github.com/codezilla91/bon-instant-payment-namibia.git
@@ -15,6 +23,10 @@ npm start
 
 `npm install` installs the API and web dependencies through npm workspaces.
 `npm start` starts both the API and the web app, waits for them to become ready, and opens the browser automatically.
+
+Supported environments: Windows, macOS, and Linux.
+
+If the browser does not open automatically, open `http://localhost:4200` manually.
 
 Useful local URLs:
 
@@ -138,4 +150,6 @@ The docs also show the optional `x-correlation-id` header and make it clear that
 
 - `npm start`
 - `npm run build:api`
+- `npm run build:web`
+- `npm run test:startup`
 - `apps/web/node_modules/.bin/tsc -p apps/web/tsconfig.app.json --noEmit`

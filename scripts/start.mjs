@@ -1,7 +1,9 @@
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import net from 'node:net';
 import path from 'node:path';
 import process from 'node:process';
+import { existsSync } from 'node:fs';
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const apiHealthUrl = process.env.BON_API_HEALTH_URL ?? 'http://127.0.0.1:3000/api/health';
@@ -11,6 +13,10 @@ const isWindows = process.platform === 'win32';
 const windowsShell = process.env.comspec ?? 'cmd.exe';
 const apiWorkspace = '@bon-p2p/api';
 const webWorkspace = '@bon-p2p/web';
+const supportedNodeRanges = [
+  { major: 20, minor: 19, patch: 0 },
+  { major: 22, minor: 12, patch: 0 }
+];
 
 let serviceProcesses = [];
 let shuttingDown = false;
@@ -41,6 +47,63 @@ function prefixStream(label, stream, target) {
   });
 }
 
+function parseNodeVersion(version) {
+  const clean = version.replace(/^v/, '');
+  const match = clean.match(/^(\d+)\.(\d+)\.(\d+)/);
+
+  if (!match) {
+    return null;
+  }
+
+  return {
+    major: Number(match[1]),
+    minor: Number(match[2]),
+    patch: Number(match[3])
+  };
+}
+
+function isVersionAtLeast(current, minimum) {
+  if (current.major !== minimum.major) {
+    return current.major > minimum.major;
+  }
+
+  if (current.minor !== minimum.minor) {
+    return current.minor > minimum.minor;
+  }
+
+  return current.patch >= minimum.patch;
+}
+
+function validateNodeVersion() {
+  const current = parseNodeVersion(process.version);
+
+  if (!current) {
+    throw new Error(`Unable to read the current Node.js version: ${process.version}`);
+  }
+
+  const supported = supportedNodeRanges.some((minimum) => current.major === minimum.major && isVersionAtLeast(current, minimum));
+
+  if (!supported) {
+    throw new Error(
+      `Unsupported Node.js version ${process.version}. Use Node 22.12.0+ (recommended) or Node 20.19.0+ before running npm start.`
+    );
+  }
+}
+
+function ensureDependenciesInstalled() {
+  const requiredPaths = [
+    path.join(rootDir, 'node_modules', '.package-lock.json'),
+    path.join(rootDir, 'node_modules', '@bon-p2p', 'api', 'package.json'),
+    path.join(rootDir, 'node_modules', '@bon-p2p', 'web', 'package.json')
+  ];
+
+  const missing = requiredPaths.some((filePath) => !existsSync(filePath));
+
+  if (missing) {
+    throw new Error('Dependencies are missing. Run npm install from the repository root, then run npm start again.');
+  }
+}
+
 function waitForProcess(child, label) {
   return new Promise((resolve, reject) => {
     child.on('error', (error) => reject(new Error(`${label} failed to start: ${error.message}`)));
@@ -57,6 +120,39 @@ function waitForProcess(child, label) {
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function checkPortAvailable(port, host = '127.0.0.1') {
+  return new Promise((resolve, reject) => {
+    const server = net.createServer();
+
+    server.once('error', (error) => {
+      if (error && typeof error === 'object' && 'code' in error) {
+        if (error.code === 'EADDRINUSE') {
+          reject(new Error(`Port ${port} is already in use. Stop the existing service on ${host}:${port} and try again.`));
+          return;
+        }
+
+        if (error.code === 'EACCES' || error.code === 'EPERM') {
+          reject(new Error(`Port ${port} cannot be opened on this machine right now (${error.code}).`));
+          return;
+        }
+      }
+
+      reject(error);
+    });
+
+    server.listen(port, host, () => {
+      server.close((closeError) => {
+        if (closeError) {
+          reject(closeError);
+          return;
+        }
+
+        resolve();
+      });
+    });
+  });
 }
 
 async function waitForUrl(url, label, timeoutMs = 120000) {
@@ -99,12 +195,22 @@ function openBrowser(url) {
     }
   }
 
-  process.stdout.write(`Open ${url} manually if your browser did not launch.\n`);
+  process.stdout.write(`Browser launch skipped. Open ${url} manually.\n`);
+}
+
+function quoteWindowsArg(value) {
+  if (/[\s"&()^<>|]/.test(value)) {
+    return `"${value.replace(/"/g, '\\"')}"`;
+  }
+
+  return value;
 }
 
 function spawnNpm(args, options = {}) {
   if (isWindows) {
-    return spawn(windowsShell, ['/d', '/s', '/c', 'npm.cmd', ...args], {
+    const command = ['npm.cmd', ...args.map(quoteWindowsArg)].join(' ');
+
+    return spawn(windowsShell, ['/d', '/s', '/c', command], {
       cwd: rootDir,
       shell: false,
       ...options
@@ -170,7 +276,9 @@ async function runWorkspaceScript(label, workspaceName, scriptName) {
 
 async function main() {
   process.stdout.write('Starting Bank of Namibia P2P challenge app...\n');
-  process.stdout.write('Run npm install once after cloning, then use npm start.\n');
+  validateNodeVersion();
+  ensureDependenciesInstalled();
+  await Promise.all([checkPortAvailable(3000), checkPortAvailable(4200)]);
 
   await runWorkspaceScript('Building API', apiWorkspace, 'build');
 
