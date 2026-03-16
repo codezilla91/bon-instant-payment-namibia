@@ -1,70 +1,53 @@
-// ── Bootstrap 5 variable overrides (must come before import) ──────────────────
-$font-family-sans-serif: 'Nunito', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$font-size-base: 1rem; // 16px
-$line-height-base: 1.55;
-
-// Colours
-$primary: #993333;
-$secondary: #999966;
-$success: #1e7840;
-$danger: #993333;
-$light: #f5eee0;
-$dark: #32261d;
-$body-color: #32261d;
-$body-bg: #f4efe6;
-
-// Borders & rounding
-$border-color: rgba(84, 62, 47, 0.16);
-$border-radius: 10px;
-$border-radius-lg: 12px;
-$border-radius-sm: 7px;
-$border-radius-pill: 999px;
-
-// Inputs
-$input-bg: #fff;
-$input-border-color: rgba(84, 62, 47, 0.16);
-$input-focus-border-color: rgba(153, 51, 51, 0.48);
-$input-focus-box-shadow: 0 0 0 3px rgba(153, 51, 51, 0.1);
-$input-placeholder-color: #9b8c7b;
-$input-padding-y: 0.72rem;
-$input-padding-x: 0.9rem;
-$input-font-family: inherit;
-$form-label-font-weight: 700;
-$form-label-margin-bottom: 0.3rem;
-
-// Buttons
-$btn-font-weight: 800;
-$btn-padding-y: 0.65rem;
-$btn-padding-x: 1.1rem;
-$btn-border-radius: 10px;
-
-// Cards
-$card-bg: rgba(255, 255, 255, 0.88);
-$card-border-color: rgba(84, 62, 47, 0.12);
-$card-border-radius: 12px;
-$card-box-shadow: 0 18px 36px rgba(40, 32, 24, 0.08);
-$card-cap-bg: transparent;
-
-// Navbar
-$navbar-padding-y: 0.85rem;
-$navbar-light-color: #6d5a4c;
-$navbar-light-hover-color: #993333;
-$navbar-light-active-color: #993333;
-$navbar-light-brand-color: #32261d;
-
-// Accordion
-$accordion-bg: rgba(255, 255, 255, 0.84);
-$accordion-border-color: rgba(84, 62, 47, 0.12);
-$accordion-button-active-bg: rgba(153, 51, 51, 0.06);
-$accordion-button-active-color: #993333;
-$accordion-button-focus-box-shadow: 0 0 0 3px rgba(153, 51, 51, 0.1);
-
-// Tables
-$table-border-color: rgba(84, 62, 47, 0.12);
-$table-striped-bg: rgba(153, 153, 102, 0.05);
-
-// ── Bootstrap core import ──────────────────────────────────────────────────────
-@import 'bootstrap/scss/bootstrap';
+// ── Bootstrap 5 theme configuration ────────────────────────────────────────────
+@use 'bootstrap/scss/bootstrap' with (
+  $font-family-sans-serif: ('Nunito', 'Helvetica Neue', Helvetica, Arial, sans-serif),
+  $font-size-base: 1rem,
+  $line-height-base: 1.55,
+  $primary: #993333,
+  $secondary: #999966,
+  $success: #1e7840,
+  $danger: #993333,
+  $light: #f5eee0,
+  $dark: #32261d,
+  $body-color: #32261d,
+  $body-bg: #f4efe6,
+  $border-color: rgba(84, 62, 47, 0.16),
+  $border-radius: 10px,
+  $border-radius-lg: 12px,
+  $border-radius-sm: 7px,
+  $border-radius-pill: 999px,
+  $input-bg: #fff,
+  $input-border-color: rgba(84, 62, 47, 0.16),
+  $input-focus-border-color: rgba(153, 51, 51, 0.48),
+  $input-focus-box-shadow: 0 0 0 3px rgba(153, 51, 51, 0.1),
+  $input-placeholder-color: #9b8c7b,
+  $input-padding-y: 0.72rem,
+  $input-padding-x: 0.9rem,
+  $input-font-family: inherit,
+  $form-label-font-weight: 700,
+  $form-label-margin-bottom: 0.3rem,
+  $btn-font-weight: 800,
+  $btn-padding-y: 0.65rem,
+  $btn-padding-x: 1.1rem,
+  $btn-border-radius: 10px,
+  $card-bg: rgba(255, 255, 255, 0.88),
+  $card-border-color: rgba(84, 62, 47, 0.12),
+  $card-border-radius: 12px,
+  $card-box-shadow: 0 18px 36px rgba(40, 32, 24, 0.08),
+  $card-cap-bg: transparent,
+  $navbar-padding-y: 0.85rem,
+  $navbar-light-color: #6d5a4c,
+  $navbar-light-hover-color: #993333,
+  $navbar-light-active-color: #993333,
+  $navbar-light-brand-color: #32261d,
+  $accordion-bg: rgba(255, 255, 255, 0.84),
+  $accordion-border-color: rgba(84, 62, 47, 0.12),
+  $accordion-button-active-bg: rgba(153, 51, 51, 0.06),
+  $accordion-button-active-color: #993333,
+  $accordion-button-focus-box-shadow: 0 0 0 3px rgba(153, 51, 51, 0.1),
+  $table-border-color: rgba(84, 62, 47, 0.12),
+  $table-striped-bg: rgba(153, 153, 102, 0.05)
+);
 
 // ── CSS custom properties (kept alongside Bootstrap for BoN palette use) ──────
 :root {

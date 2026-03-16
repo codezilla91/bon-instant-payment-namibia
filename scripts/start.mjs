@@ -104,20 +104,6 @@ function ensureDependenciesInstalled() {
   }
 }
 
-function waitForProcess(child, label) {
-  return new Promise((resolve, reject) => {
-    child.on('error', (error) => reject(new Error(`${label} failed to start: ${error.message}`)));
-    child.on('exit', (code, signal) => {
-      if (code === 0) {
-        resolve();
-        return;
-      }
-
-      reject(new Error(`${label} exited with ${signal ?? `code ${code ?? 'unknown'}`}.`));
-    });
-  });
-}
-
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -224,8 +210,8 @@ function spawnNpm(args, options = {}) {
   });
 }
 
-function startWorkspaceService(label, workspaceName) {
-  const child = spawnNpm(['run', 'serve', '-w', workspaceName], {
+function startWorkspaceService(label, workspaceName, scriptName) {
+  const child = spawnNpm(['run', scriptName, '-w', workspaceName], {
     env: {
       ...process.env,
       BROWSER: 'none'
@@ -266,25 +252,16 @@ function shutdown(code = 0) {
   }, 250);
 }
 
-async function runWorkspaceScript(label, workspaceName, scriptName) {
-  process.stdout.write(`${label}...\n`);
-  const child = spawnNpm(['run', scriptName, '-w', workspaceName], {
-    stdio: 'inherit'
-  });
-  await waitForProcess(child, label);
-}
-
 async function main() {
   process.stdout.write('Starting Bank of Namibia P2P challenge app...\n');
   validateNodeVersion();
   ensureDependenciesInstalled();
   await Promise.all([checkPortAvailable(3000), checkPortAvailable(4200)]);
 
-  await runWorkspaceScript('Building API', apiWorkspace, 'build');
-
   serviceProcesses = [
-    startWorkspaceService('api', apiWorkspace),
-    startWorkspaceService('web', webWorkspace)
+    // Run the API directly from source so evaluators only need npm install + npm start.
+    startWorkspaceService('api', apiWorkspace, 'dev'),
+    startWorkspaceService('web', webWorkspace, 'serve')
   ];
 
   await Promise.all([waitForUrl(apiHealthUrl, 'API'), waitForUrl(webUrl, 'Web')]);

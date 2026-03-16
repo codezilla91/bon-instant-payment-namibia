@@ -22,7 +22,7 @@ npm start
 ```
 
 `npm install` installs the API and web dependencies through npm workspaces.
-`npm start` starts both the API and the web app, waits for them to become ready, and opens the browser automatically.
+`npm start` runs the API and Angular app directly from source, waits for them to become ready, and opens the browser automatically. No manual build step is required first.
 
 Supported environments: Windows, macOS, and Linux.
 
