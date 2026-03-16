@@ -1,5 +1,6 @@
 import type { ErrorRequestHandler } from 'express';
 import type { Logger } from 'pino';
+import { PAYMENT_MESSAGES } from '../../modules/payments/payment.messages.js';
 import { getCorrelationId, getRequestLogger, type RequestWithContext } from './request-context.js';
 
 export function createJsonParseErrorHandler(logger: Logger): ErrorRequestHandler {
@@ -20,7 +21,7 @@ export function createJsonParseErrorHandler(logger: Logger): ErrorRequestHandler
       return res.status(400).json({
         status: 'FAILED',
         errorCode: 'ERR000',
-        message: 'Malformed JSON payload.'
+        message: PAYMENT_MESSAGES.invalidRequest
       });
     }
 
@@ -64,7 +65,7 @@ export function createUnhandledErrorHandler(logger: Logger): ErrorRequestHandler
     return res.status(500).json({
       status: 'FAILED',
       errorCode: 'ERR006',
-      message: 'Internal processing error. Please retry later.'
+      message: PAYMENT_MESSAGES.internalProcessingError
     });
   };
 }

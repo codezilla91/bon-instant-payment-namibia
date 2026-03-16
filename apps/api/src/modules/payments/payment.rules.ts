@@ -1,4 +1,5 @@
 import type { P2PPaymentRequest, PaymentErrorResponse } from './payment.types.js';
+import { PAYMENT_MESSAGES } from './payment.messages.js';
 
 export function applyMockBusinessRules(
   request: P2PPaymentRequest,
@@ -9,7 +10,7 @@ export function applyMockBusinessRules(
       status: 'FAILED',
       errorCode: 'ERR005',
       clientReference: request.clientReference,
-      message: 'Your available balance is not enough for this payment.'
+      message: PAYMENT_MESSAGES.insufficientFunds
     };
   }
 
@@ -18,7 +19,7 @@ export function applyMockBusinessRules(
       status: 'FAILED',
       errorCode: 'ERR006',
       clientReference: request.clientReference,
-      message: 'Internal processing error. Please retry later.'
+      message: PAYMENT_MESSAGES.internalProcessingError
     };
   }
 

@@ -1,4 +1,5 @@
 import { buildTransactionId } from '../../shared/utils/transaction-id.js';
+import { PAYMENT_MESSAGES } from './payment.messages.js';
 import { PaymentReferenceStore } from './payment-reference.store.js';
 import { applyMockBusinessRules } from './payment.rules.js';
 import {
@@ -25,7 +26,7 @@ export class PaymentService {
         response: validation.error ?? {
           status: 'FAILED',
           errorCode: 'ERR000',
-          message: 'We could not read this payment. Please try again.'
+          message: PAYMENT_MESSAGES.invalidRequest
         }
       };
     }
@@ -42,7 +43,7 @@ export class PaymentService {
           status: 'FAILED',
           errorCode: 'ERR006',
           clientReference: paymentRequest.clientReference,
-          message: 'We could not complete this payment right now. Please try again.'
+          message: PAYMENT_MESSAGES.internalProcessingError
         }
       };
     }
@@ -56,7 +57,7 @@ export class PaymentService {
           status: 'FAILED',
           errorCode: 'ERR007',
           clientReference: paymentRequest.clientReference,
-          message: 'This payment reference ID has already been used. Please enter a new one.'
+          message: PAYMENT_MESSAGES.duplicateClientReference
         }
       };
     }
@@ -86,7 +87,7 @@ export class PaymentService {
       status: 'SUCCESS',
       transactionId: buildTransactionId(),
       clientReference: paymentRequest.clientReference,
-      message: 'Payment processed successfully.'
+      message: PAYMENT_MESSAGES.success
     };
 
     return {

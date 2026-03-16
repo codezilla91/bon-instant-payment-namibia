@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import request from 'supertest';
 import { createApp } from './app.js';
+import { PAYMENT_MESSAGES } from './modules/payments/payment.messages.js';
 
 function setupApp() {
   const { app } = createApp({ disableRateLimit: true, logLevel: 'silent' });
@@ -34,6 +35,7 @@ test('POST /api/p2p-payment returns success for valid input', async () => {
   assert.equal(response.body.clientReference, validPayload.clientReference);
   assert.ok(typeof response.body.transactionId === 'string');
   assert.match(response.body.transactionId, /^TXN\d{12}$/);
+  assert.equal(response.body.message, PAYMENT_MESSAGES.success);
   assert.ok(typeof response.headers['x-correlation-id'] === 'string');
 });
 
@@ -47,6 +49,7 @@ test('POST /api/p2p-payment rejects missing required fields (ERR001)', async () 
   assert.equal(response.status, 400);
   assert.equal(response.body.status, 'FAILED');
   assert.equal(response.body.errorCode, 'ERR001');
+  assert.equal(response.body.message, PAYMENT_MESSAGES.missingRequiredFields);
 });
 
 test('POST /api/p2p-payment rejects invalid account format (ERR002)', async () => {
@@ -60,6 +63,7 @@ test('POST /api/p2p-payment rejects invalid account format (ERR002)', async () =
   assert.equal(response.status, 400);
   assert.equal(response.body.status, 'FAILED');
   assert.equal(response.body.errorCode, 'ERR002');
+  assert.equal(response.body.message, PAYMENT_MESSAGES.invalidAccountFormat);
 });
 
 test('POST /api/p2p-payment rejects non-NAD currency (ERR003)', async () => {
@@ -72,6 +76,7 @@ test('POST /api/p2p-payment rejects non-NAD currency (ERR003)', async () => {
 
   assert.equal(response.status, 400);
   assert.equal(response.body.errorCode, 'ERR003');
+  assert.equal(response.body.message, PAYMENT_MESSAGES.invalidCurrency);
 });
 
 test('POST /api/p2p-payment rejects invalid amount (ERR004)', async () => {
@@ -84,6 +89,7 @@ test('POST /api/p2p-payment rejects invalid amount (ERR004)', async () => {
 
   assert.equal(response.status, 400);
   assert.equal(response.body.errorCode, 'ERR004');
+  assert.equal(response.body.message, PAYMENT_MESSAGES.invalidAmount);
 });
 
 test('POST /api/p2p-payment returns ERR005 for insufficient funds mock rule', async () => {
@@ -96,6 +102,7 @@ test('POST /api/p2p-payment returns ERR005 for insufficient funds mock rule', as
 
   assert.equal(response.status, 402);
   assert.equal(response.body.errorCode, 'ERR005');
+  assert.equal(response.body.message, PAYMENT_MESSAGES.insufficientFunds);
 });
 
 test('POST /api/p2p-payment detects duplicate clientReference', async () => {
@@ -114,6 +121,7 @@ test('POST /api/p2p-payment detects duplicate clientReference', async () => {
   assert.equal(first.status, 200);
   assert.equal(second.status, 409);
   assert.equal(second.body.errorCode, 'ERR007');
+  assert.equal(second.body.message, PAYMENT_MESSAGES.duplicateClientReference);
 });
 
 test('POST /api/p2p-payment can simulate ERR006 with header', async () => {
@@ -128,4 +136,5 @@ test('POST /api/p2p-payment can simulate ERR006 with header', async () => {
 
   assert.equal(response.status, 500);
   assert.equal(response.body.errorCode, 'ERR006');
+  assert.equal(response.body.message, PAYMENT_MESSAGES.internalProcessingError);
 });

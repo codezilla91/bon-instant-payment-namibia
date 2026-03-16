@@ -69,7 +69,7 @@ export class PaymentWorkflowService {
           status: 'FAILED',
           errorCode: 'ERR005',
           clientReference: currentDraft.clientReference,
-          message: 'Your available balance is not enough for this payment.'
+          message: 'Insufficient funds'
         })
       );
     }
@@ -108,7 +108,8 @@ export class PaymentWorkflowService {
 
     return {
       status: 'FAILED',
-      message: 'The payment service is currently unavailable. Please try again shortly.'
+      errorCode: 'ERR006',
+      message: 'Internal processing error'
     };
   }
 

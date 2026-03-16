@@ -1,4 +1,5 @@
 import type { P2PPaymentRequest, ValidationResult } from './payment.types.js';
+import { PAYMENT_MESSAGES } from './payment.messages.js';
 
 const ACCOUNT_PATTERN = /^\d{10,}$/;
 
@@ -20,7 +21,7 @@ function invalid(errorCode: string, message: string, clientReference?: string): 
 
 export function validatePaymentRequest(payload: unknown): ValidationResult {
   if (!payload || typeof payload !== 'object') {
-    return invalid('ERR000', 'We could not read this payment. Please try again.');
+    return invalid('ERR000', PAYMENT_MESSAGES.invalidRequest);
   }
 
   const raw = payload as Record<string, unknown>;
@@ -45,31 +46,27 @@ export function validatePaymentRequest(payload: unknown): ValidationResult {
   });
 
   if (missingFields.length > 0) {
-    return invalid('ERR001', `Complete the missing payment details: ${missingFields.join(', ')}.`, clientReference || undefined);
+    return invalid('ERR001', PAYMENT_MESSAGES.missingRequiredFields, clientReference || undefined);
   }
 
   if (!ACCOUNT_PATTERN.test(senderAccountNumber) || !ACCOUNT_PATTERN.test(receiverAccountNumber)) {
-    return invalid(
-      'ERR002',
-      'Enter account numbers with at least 10 digits.',
-      clientReference || undefined
-    );
+    return invalid('ERR002', PAYMENT_MESSAGES.invalidAccountFormat, clientReference || undefined);
   }
 
   if (currency !== 'NAD') {
-    return invalid('ERR003', 'Only Namibian dollars (NAD) are supported right now.', clientReference || undefined);
+    return invalid('ERR003', PAYMENT_MESSAGES.invalidCurrency, clientReference || undefined);
   }
 
   if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
-    return invalid('ERR004', 'Enter an amount greater than zero.', clientReference || undefined);
+    return invalid('ERR004', PAYMENT_MESSAGES.invalidAmount, clientReference || undefined);
   }
 
   if (reference.length > 50) {
-    return invalid('ERR001', 'Reference can be up to 50 characters.', clientReference || undefined);
+    return invalid('ERR001', PAYMENT_MESSAGES.invalidReference, clientReference || undefined);
   }
 
   if (clientReference.length > 50) {
-    return invalid('ERR001', 'Payment reference ID can be up to 50 characters.', clientReference || undefined);
+    return invalid('ERR001', PAYMENT_MESSAGES.invalidReference, clientReference || undefined);
   }
 
   const value: P2PPaymentRequest = {

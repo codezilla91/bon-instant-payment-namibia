@@ -1,3 +1,5 @@
+import { PAYMENT_MESSAGES } from '../payments/payment.messages.js';
+
 export function createOpenApiDocument(serverUrl: string) {
   return {
     openapi: '3.0.3',
@@ -113,7 +115,7 @@ export function createOpenApiDocument(serverUrl: string) {
                         status: 'SUCCESS',
                         transactionId: 'TXN202603150001',
                         clientReference: 'CLI-1773598364191-4963',
-                        message: 'Payment processed successfully.'
+                        message: PAYMENT_MESSAGES.success
                       }
                     }
                   }
@@ -138,7 +140,7 @@ export function createOpenApiDocument(serverUrl: string) {
                         status: 'FAILED',
                         errorCode: 'ERR003',
                         clientReference: 'CLI-1773598364191-4963',
-                        message: 'Only Namibian dollars (NAD) are supported right now.'
+                        message: PAYMENT_MESSAGES.invalidCurrency
                       }
                     }
                   }
@@ -163,7 +165,7 @@ export function createOpenApiDocument(serverUrl: string) {
                         status: 'FAILED',
                         errorCode: 'ERR005',
                         clientReference: 'CLI-1773598364191-4963',
-                        message: 'Your available balance is not enough for this payment.'
+                        message: PAYMENT_MESSAGES.insufficientFunds
                       }
                     }
                   }
@@ -188,7 +190,7 @@ export function createOpenApiDocument(serverUrl: string) {
                         status: 'FAILED',
                         errorCode: 'ERR007',
                         clientReference: 'CLI-1773598364191-4963',
-                        message: 'This payment reference ID has already been used. Please enter a new one.'
+                        message: PAYMENT_MESSAGES.duplicateClientReference
                       }
                     }
                   }
@@ -213,7 +215,7 @@ export function createOpenApiDocument(serverUrl: string) {
                         status: 'FAILED',
                         errorCode: 'ERR006',
                         clientReference: 'CLI-1773598364191-4963',
-                        message: 'We could not complete this payment right now. Please try again.'
+                        message: PAYMENT_MESSAGES.internalProcessingError
                       }
                     }
                   }
@@ -299,7 +301,7 @@ export function createOpenApiDocument(serverUrl: string) {
             },
             message: {
               type: 'string',
-              example: 'Payment processed successfully.'
+              example: PAYMENT_MESSAGES.success
             }
           }
         },
@@ -322,7 +324,7 @@ export function createOpenApiDocument(serverUrl: string) {
             },
             message: {
               type: 'string',
-              example: 'Your available balance is not enough for this payment.'
+              example: PAYMENT_MESSAGES.insufficientFunds
             }
           }
         }
