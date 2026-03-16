@@ -82,11 +82,17 @@ function validateNodeVersion() {
     throw new Error(`Unable to read the current Node.js version: ${process.version}`);
   }
 
+  if (current.major < 20) {
+    throw new Error(
+      `Unsupported Node.js version ${process.version}. Node 20+ is required. Recommended: Node 22.22.0 LTS.`
+    );
+  }
+
   const supported = supportedNodeRanges.some((minimum) => current.major === minimum.major && isVersionAtLeast(current, minimum));
 
   if (!supported) {
-    throw new Error(
-      `Unsupported Node.js version ${process.version}. Use Node 20.19.0+, Node 22.13.0+ (recommended: 22.22.0), or Node 24.0.0+ before running npm start.`
+    process.stderr.write(
+      `Warning: Node.js ${process.version} is outside the primary tested range. The app will still try to start. Recommended: Node 22.22.0 LTS. Best Angular compatibility is Node 20.19.0+, 22.12.0+, or 24.0.0+.\n`
     );
   }
 }
