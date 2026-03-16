@@ -8,7 +8,7 @@ const apiHealthUrl = process.env.BON_API_HEALTH_URL ?? 'http://127.0.0.1:3000/ap
 const webUrl = process.env.BON_WEB_URL ?? 'http://127.0.0.1:4200';
 const shouldOpenBrowser = !process.argv.includes('--no-open');
 const isWindows = process.platform === 'win32';
-const npmCommand = isWindows ? 'npm.cmd' : 'npm';
+const windowsShell = process.env.comspec ?? 'cmd.exe';
 const apiWorkspace = '@bon-p2p/api';
 const webWorkspace = '@bon-p2p/web';
 
@@ -102,10 +102,24 @@ function openBrowser(url) {
   process.stdout.write(`Open ${url} manually if your browser did not launch.\n`);
 }
 
-function startWorkspaceService(label, workspaceName) {
-  const child = spawn(npmCommand, ['run', 'serve', '-w', workspaceName], {
+function spawnNpm(args, options = {}) {
+  if (isWindows) {
+    return spawn(windowsShell, ['/d', '/s', '/c', 'npm.cmd', ...args], {
+      cwd: rootDir,
+      shell: false,
+      ...options
+    });
+  }
+
+  return spawn('npm', args, {
     cwd: rootDir,
     shell: false,
+    ...options
+  });
+}
+
+function startWorkspaceService(label, workspaceName) {
+  const child = spawnNpm(['run', 'serve', '-w', workspaceName], {
     env: {
       ...process.env,
       BROWSER: 'none'
@@ -148,9 +162,7 @@ function shutdown(code = 0) {
 
 async function runWorkspaceScript(label, workspaceName, scriptName) {
   process.stdout.write(`${label}...\n`);
-  const child = spawn(npmCommand, ['run', scriptName, '-w', workspaceName], {
-    cwd: rootDir,
-    shell: false,
+  const child = spawnNpm(['run', scriptName, '-w', workspaceName], {
     stdio: 'inherit'
   });
   await waitForProcess(child, label);
